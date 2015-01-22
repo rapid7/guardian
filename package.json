@@ -1,0 +1,30 @@
+{
+  "name": "guardian",
+  "version": "0.0.1",
+  "description": "SAML authentication proxy service",
+  "author": "Rapid7 LLC <engineeringservices@rapid7.com>",
+  "main": "bin/server.js",
+  "dependencies": {
+    "body-parser": "1.10.x",
+    "cookie-parser": "1.3.x",
+    "express": "4.x",
+    "express-session": "1.10.x",
+    "http-proxy": "1.8.x",
+    "nconf": "0.7.x",
+    "passport": "0.2.x",
+    "passport-saml": "0.7.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rapid7/guardian.git"
+  },
+  "keywords": [
+    "SAML",
+    "authentication"
+  ],
+  "license": "Apache, Version 2.0",
+  "bugs": {
+    "url": "https://github.com/rapid7/guardian/issues"
+  },
+  "homepage": "https://github.com/rapid7/guardian"
+}

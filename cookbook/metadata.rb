@@ -1,0 +1,11 @@
+name             'guardian'
+maintainer       'Rapid7, LLC'
+maintainer_email 'engineringservices@rapid7.com'
+license          'Apache 2.0'
+description      'Installs/Configures guardian'
+long_description 'Installs/Configures guardian'
+version          '0.1.0'
+
+depends 'nodejs'
+depends 'runit'
+depends 'github', '~> 0.3.0'

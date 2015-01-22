@@ -1,0 +1,18 @@
+---
+driver:
+  name: vagrant
+  synced_folders:
+    - ['../', '/mnt']
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: ubuntu-14.04
+
+suites:
+  - name: default
+    run_list:
+      - recipe[guardian::default]
+    attributes:
+      test_kitchen: /mnt

@@ -1,0 +1,23 @@
+*~
+*#
+.#*
+\#*#
+.*.sw[a-z]
+*.un~
+pkg/
+
+# Berkshelf
+.vagrant
+/cookbooks
+Berksfile.lock
+
+# Bundler
+cookbook/bin/*
+.bundle/*
+
+.kitchen/
+.kitchen.local.yml
+
+node_modules
+config
+VERSION
