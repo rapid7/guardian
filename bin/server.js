@@ -11,21 +11,18 @@ var Session = require('express-session');
 var app = Express();
 var server = HTTP.createServer(app);
 
-var cookie_options = {
-  secure: Config.get('session:cookie:secure'),
-  httpOnly: Config.get('session:cookie:httpOnly'),
-  maxAge: Config.get('session:expire') * 1000,
-  domain: Config.get('service:domain')
-};
-
-app.use(CookieParser(Config.get('session:cookie:secret'), cookie_options));
+app.use(CookieParser());
 app.use(BodyParser.json());
 app.use(BodyParser.urlencoded({
   extended: true
 }));
 app.use(Session({
   name: Config.get('session:name'),
-  cookie: cookie_options,
+  cookie: {
+    secure: Config.get('session:cookie:secure'),
+    httpOnly: Config.get('session:cookie:httpOnly'),
+    maxAge: Config.get('session:expire') * 1000
+  },
   rolling: true,
   resave: true,
   saveUninitialized: true,
