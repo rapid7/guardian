@@ -18,3 +18,7 @@
 # limitations under the License.
 #
 package 'redis-server'
+
+service 'redis-server' do
+  action [:start, :enable]
+end

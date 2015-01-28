@@ -9,11 +9,13 @@
     "cookie-parser": "1.3.x",
     "express": "4.x",
     "express-session": "1.10.x",
+    "hiredis": "0.1.x",
     "http-proxy": "1.8.x",
     "nconf": "0.7.x",
     "passport": "0.2.x",
     "passport-oauth2": "1.1.x",
-    "passport-saml": "0.7.x"
+    "passport-saml": "0.7.x",
+    "redis": "0.12.x"
   },
   "repository": {
     "type": "git",

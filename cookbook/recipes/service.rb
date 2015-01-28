@@ -24,8 +24,11 @@ include_recipe 'runit'
 include_recipe 'nodejs'
 include_recipe 'nodejs::npm'
 
+package 'build-essential'
+
 group node['guardian']['group'] do
   system true
+  not_if { node['guardian']['version'] == 'development' }
 end
 
 user node['guardian']['user'] do
@@ -33,6 +36,7 @@ user node['guardian']['user'] do
   home node['guardian']['home']
   group node['guardian']['group']
   supports :manage_home => true
+  not_if { node['guardian']['version'] == 'development' }
 end
 
 directory node['guardian']['path'] do
@@ -66,16 +70,22 @@ libarchive_file 'guardian-source.tar.gz' do
 end
 
 ## Development. Use shared folder
-link node['guardian']['path'] do
-  to '/mnt'
+directory '/mnt/source/node_modules' do
+  owner node['guardian']['user']
+  group node['guardian']['group']
   only_if { node['guardian']['version'] == 'development' }
-  notifies :install, 'nodejs_npm[guardian]'
+end
+
+link node['guardian']['path'] do
+  to '/mnt/source'
+  only_if { node['guardian']['version'] == 'development' }
 end
 
 nodejs_npm 'guardian' do
   path node['guardian']['path']
+  user node['guardian']['user']
   json true
-  action :nothing
+  action node['guardian']['version'] == 'development' ? :install : :nothing
   notifies :restart, 'runit_service[guardian]'
 end
 

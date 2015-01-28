@@ -3,10 +3,9 @@ var FS = require('fs');
 var HTTP = require('http');
 require('../lib/config');
 
-var Auth = require('../lib/control/auth');
+var Auth = require('../lib/auth');
 var BodyParser = require('body-parser');
 var CookieParser = require('cookie-parser');
-var Session = require('express-session');
 
 var app = Express();
 var server = HTTP.createServer(app);
@@ -16,18 +15,8 @@ app.use(BodyParser.json());
 app.use(BodyParser.urlencoded({
   extended: true
 }));
-app.use(Session({
-  name: Config.get('session:name'),
-  cookie: {
-    secure: Config.get('session:cookie:secure'),
-    httpOnly: Config.get('session:cookie:httpOnly'),
-    maxAge: Config.get('session:expire') * 1000
-  },
-  rolling: true,
-  resave: true,
-  saveUninitialized: true,
-  secret: Config.get('session:secret')
-}));
+
+require('../lib/session').attach(app);
 
 Auth.attach(app);
 require('../lib/control/login').attach(app);

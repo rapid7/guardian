@@ -12,7 +12,7 @@ Vagrant.configure('2') do |config|
   # end
 
   config.vm.network :forwarded_port, :host => 8080, :guest => 8080
-  config.vm.synced_folder './', '/mnt'
+  config.vm.synced_folder './', '/mnt/source'
 
   config.omnibus.chef_version = :latest
   config.berkshelf.enabled = true
@@ -22,6 +22,8 @@ Vagrant.configure('2') do |config|
     chef.log_level = :info
     chef.json = {
       'guardian' => {
+        'user' => 'vagrant',
+        'group' => 'vagrant',
         'version' => 'development'
       }
     }
