@@ -15,4 +15,5 @@ suites:
     run_list:
       - recipe[guardian::default]
     attributes:
-      test_kitchen: /mnt
+      guardian:
+        version: development

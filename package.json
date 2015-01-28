@@ -12,6 +12,7 @@
     "http-proxy": "1.8.x",
     "nconf": "0.7.x",
     "passport": "0.2.x",
+    "passport-oauth2": "1.1.x",
     "passport-saml": "0.7.x"
   },
   "repository": {
