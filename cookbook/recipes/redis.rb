@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: guardian
-# Recipe:: default
+# Recipe:: redis
 #
 # Copyright (C) 2015, Rapid7, LLC.
 # License:: Apache License, Version 2.0
@@ -17,5 +17,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include_recipe 'guardian::redis'
-include_recipe 'guardian::service'
+package 'redis-server'
