@@ -29,6 +29,7 @@ if (Config.get('service:listen') != 'socket')
     console.log('Listening on TCP port ' + Config.get('service:listen'));
   });
 
+console.log('Opening UNIX socket ' + Config.get('service:socket'));
 try {
   FS.unlinkSync(Config.get('service:socket'));
 } catch(e) {}

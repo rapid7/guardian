@@ -1,7 +1,6 @@
-#!/bin/sh
 #
 # Cookbook Name:: guardian
-# Template:: sv-guardian-run.erb
+# Template:: guardian-ssl.nginx.erb
 #
 # Copyright (C) 2015, Rapid7, LLC.
 # License:: Apache License, Version 2.0
@@ -18,5 +17,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-exec 2>&1
-exec chpst -u <%= @options[:user] %> nodejs <%= @options[:bindir] %>/server.js
+server {
+  listen 443;
+
+  ssl on;
+  ssl_certificate <%= node['guardian']['ssl_cert'] %>;
+  ssl_certificate_key <%= node['guardian']['ssl_key'] %>;
+
+  location / {
+    proxy_pass http://unix:<%= node['guardian']['config']['service']['socket'] %>:;
+  }
+}

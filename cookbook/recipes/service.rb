@@ -42,15 +42,21 @@ end
 directory node['guardian']['path'] do
   owner node['guardian']['user']
   group node['guardian']['group']
-  mode 0755
+  mode '0755'
   not_if { node['guardian']['version'] == 'development' }
 end
 
 directory ::File.join(node['guardian']['path'], 'config') do
   owner node['guardian']['user']
   group node['guardian']['group']
-  mode 0755
+  mode '0755'
   not_if { node['guardian']['version'] == 'development' }
+end
+
+directory node['guardian']['run'] do
+  owner node['guardian']['user']
+  group node['guardian']['group']
+  mode '0755'
 end
 
 ## WTF is this? Watch https://www.youtube.com/watch?v=Dq_vGxd-jps
@@ -89,14 +95,13 @@ nodejs_npm 'guardian' do
   notifies :restart, 'runit_service[guardian]'
 end
 
-template ::File.join(node['guardian']['path'], 'config', 'site.json') do
-  source 'site.json.erb'
+template ::File.join(node['guardian']['path'], 'config', 'chef.json') do
+  source 'conf.json.erb'
   owner node['guardian']['user']
   group node['guardian']['group']
-  mode 0600
+  mode '0600'
   helpers JSON
   notifies :restart, 'runit_service[guardian]'
-  not_if { node['guardian']['version'] == 'development' }
 end
 
 runit_service 'guardian' do

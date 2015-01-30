@@ -11,7 +11,7 @@ Vagrant.configure('2') do |config|
     # vb.memory = 2048
   # end
 
-  config.vm.network :forwarded_port, :host => 8080, :guest => 8080
+  config.vm.network :forwarded_port, :host => 8443, :guest => 443
   config.vm.synced_folder './', '/mnt/source'
 
   config.omnibus.chef_version = :latest

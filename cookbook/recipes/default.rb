@@ -18,4 +18,5 @@
 # limitations under the License.
 #
 include_recipe 'guardian::redis'
+include_recipe 'guardian::nginx'
 include_recipe 'guardian::service'
