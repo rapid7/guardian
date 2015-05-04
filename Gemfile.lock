@@ -1,7 +1,33 @@
+GIT
+  remote: git://github.com/mitchellh/vagrant.git
+  revision: 1cd667b243f4a263cd5322b6455165cc676b6f7f
+  ref: v1.7.2
+  specs:
+    vagrant (1.7.2)
+      bundler (>= 1.5.2, < 1.8.0)
+      childprocess (~> 0.5.0)
+      erubis (~> 2.7.0)
+      hashicorp-checkpoint (~> 0.1.1)
+      i18n (~> 0.6.0)
+      listen (~> 2.8.0)
+      log4r (~> 1.1.9, < 1.1.11)
+      net-scp (~> 1.1.0)
+      net-sftp (~> 2.1)
+      net-ssh (>= 2.6.6, < 2.10.0)
+      nokogiri (= 1.6.3.1)
+      rb-kqueue (~> 0.2.0)
+      rest-client (>= 1.6.0, < 2.0)
+      wdm (~> 0.1.0)
+      winrm (~> 1.1.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
+    CFPropertyList (2.3.1)
     addressable (2.3.6)
+    akami (1.3.0)
+      gyoku (>= 0.4.0)
+      nokogiri
     berkshelf (3.2.3)
       addressable (~> 2.3.4)
       berkshelf-api-client (~> 1.2)
@@ -28,38 +54,175 @@ GEM
     buff-ruby_engine (0.1.0)
     buff-shell_out (0.2.0)
       buff-ruby_engine (~> 0.1.0)
+    builder (3.2.2)
     celluloid (0.16.0)
       timers (~> 4.0.0)
     celluloid-io (0.16.1)
       celluloid (>= 0.16.0)
       nio4r (>= 1.0.0)
+    childprocess (0.5.6)
+      ffi (~> 1.0, >= 1.0.11)
     cleanroom (1.0.0)
     dep-selector-libgecode (1.0.2)
     dep_selector (1.0.3)
       dep-selector-libgecode (~> 1.0)
       ffi (~> 1.9)
+    domain_name (0.5.24)
+      unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
+    excon (0.45.3)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.6)
+    fission (0.5.0)
+      CFPropertyList (~> 2.2)
+    fog (1.29.0)
+      fog-atmos
+      fog-aws (~> 0.0)
+      fog-brightbox (~> 0.4)
+      fog-core (~> 1.27, >= 1.27.4)
+      fog-ecloud
+      fog-json
+      fog-local
+      fog-powerdns (>= 0.1.1)
+      fog-profitbricks
+      fog-radosgw (>= 0.0.2)
+      fog-riakcs
+      fog-sakuracloud (>= 0.0.4)
+      fog-serverlove
+      fog-softlayer
+      fog-storm_on_demand
+      fog-terremark
+      fog-vmfusion
+      fog-voxel
+      fog-xml (~> 0.1.1)
+      ipaddress (~> 0.5)
+      nokogiri (~> 1.5, >= 1.5.11)
+    fog-atmos (0.1.0)
+      fog-core
+      fog-xml
+    fog-aws (0.1.2)
+      fog-core (~> 1.27)
+      fog-json (~> 1.0)
+      fog-xml (~> 0.1)
+      ipaddress (~> 0.8)
+    fog-brightbox (0.7.1)
+      fog-core (~> 1.22)
+      fog-json
+      inflecto (~> 0.0.2)
+    fog-core (1.30.0)
+      builder
+      excon (~> 0.45)
+      formatador (~> 0.2)
+      mime-types
+      net-scp (~> 1.1)
+      net-ssh (>= 2.1.3)
+    fog-ecloud (0.1.1)
+      fog-core
+      fog-xml
+    fog-json (1.0.1)
+      fog-core (~> 1.0)
+      multi_json (~> 1.0)
+    fog-local (0.2.1)
+      fog-core (~> 1.27)
+    fog-powerdns (0.1.1)
+      fog-core (~> 1.27)
+      fog-json (~> 1.0)
+      fog-xml (~> 0.1)
+    fog-profitbricks (0.0.2)
+      fog-core
+      fog-xml
+      nokogiri
+    fog-radosgw (0.0.4)
+      fog-core (>= 1.21.0)
+      fog-json
+      fog-xml (>= 0.0.1)
+    fog-riakcs (0.1.0)
+      fog-core
+      fog-json
+      fog-xml
+    fog-sakuracloud (1.0.1)
+      fog-core
+      fog-json
+    fog-serverlove (0.1.2)
+      fog-core
+      fog-json
+    fog-softlayer (0.4.5)
+      fog-core
+      fog-json
+    fog-storm_on_demand (0.1.1)
+      fog-core
+      fog-json
+    fog-terremark (0.1.0)
+      fog-core
+      fog-xml
+    fog-vmfusion (0.1.0)
+      fission
+      fog-core
+    fog-voxel (0.1.0)
+      fog-core
+      fog-xml
+    fog-xml (0.1.2)
+      fog-core
+      nokogiri (~> 1.5, >= 1.5.11)
+    formatador (0.2.5)
+    gssapi (1.0.3)
+      ffi (>= 1.0.1)
+    gyoku (1.3.1)
+      builder (>= 2.1.2)
+    hashicorp-checkpoint (0.1.4)
     hashie (2.1.2)
     hitimes (1.2.2)
+    http-cookie (1.0.2)
+      domain_name (~> 0.5)
+    httpclient (2.6.0.1)
+    httpi (0.9.7)
+      rack
+    i18n (0.6.11)
+    inflecto (0.0.2)
+    ipaddress (0.8.0)
     json (1.8.2)
-    kitchen-vagrant (0.15.0)
-      test-kitchen (~> 1.0)
+    listen (2.8.6)
+      celluloid (>= 0.15.2)
+      rb-fsevent (>= 0.9.3)
+      rb-inotify (>= 0.9)
+    little-plugger (1.1.3)
+    log4r (1.1.10)
+    logging (1.8.2)
+      little-plugger (>= 1.1.3)
+      multi_json (>= 1.8.4)
+    mime-types (2.5)
+    mini_portile (0.6.0)
     minitar (0.5.4)
     mixlib-authentication (1.3.0)
       mixlib-log
     mixlib-log (1.6.0)
     mixlib-shellout (2.0.1)
+    multi_json (1.11.0)
     multipart-post (2.0.0)
     net-http-persistent (2.9.4)
-    net-scp (1.2.1)
+    net-scp (1.1.2)
+      net-ssh (>= 2.6.5)
+    net-sftp (2.1.2)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
+    netrc (0.10.3)
     nio4r (1.1.0)
+    nokogiri (1.6.3.1)
+      mini_portile (= 0.6.0)
+    nori (1.1.5)
     octokit (3.7.0)
       sawyer (~> 0.6.0, >= 0.5.3)
+    rack (1.6.0)
+    rb-fsevent (0.9.4)
+    rb-inotify (0.9.5)
+      ffi (>= 0.5.0)
+    rb-kqueue (0.2.4)
+      ffi (>= 0.5.0)
+    rest-client (1.8.0)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 3.0)
+      netrc (~> 0.7)
     retryable (2.0.0)
     ridley (4.1.2)
       addressable
@@ -78,7 +241,15 @@ GEM
       retryable (>= 2.0.0)
       semverse (~> 1.1)
       varia_model (~> 0.4)
-    safe_yaml (1.0.4)
+    rubyntlm (0.1.1)
+    savon (0.9.5)
+      akami (~> 1.0)
+      builder (>= 2.1.2)
+      gyoku (>= 0.4.0)
+      httpi (~> 0.9)
+      nokogiri (>= 1.4.0)
+      nori (~> 1.0)
+      wasabi (~> 1.0)
     sawyer (0.6.0)
       addressable (~> 2.3.5)
       faraday (~> 0.8, < 0.10)
@@ -86,29 +257,44 @@ GEM
     solve (1.2.1)
       dep_selector (~> 1.0)
       semverse (~> 1.1)
-    test-kitchen (1.3.1)
-      mixlib-shellout (>= 1.2, < 3.0)
-      net-scp (~> 1.1)
-      net-ssh (~> 2.7)
-      safe_yaml (~> 1.0)
-      thor (~> 0.18)
     thor (0.19.1)
     thor-scmversion (1.7.0)
       mixlib-shellout
       thor
     timers (4.0.1)
       hitimes
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.1)
+    uuidtools (2.1.5)
+    vagrant-aws (0.6.0)
+      fog (~> 1.22)
+    vagrant-berkshelf (4.0.3)
+    vagrant-omnibus (1.4.1)
+    vagrant-secret (0.0.1)
     varia_model (0.4.0)
       buff-extensions (~> 1.0)
       hashie (>= 2.0.2, < 3.0.0)
+    wasabi (1.0.0)
+      nokogiri (>= 1.4.0)
+    wdm (0.1.0)
+    winrm (1.1.3)
+      gssapi (~> 1.0.0)
+      httpclient (~> 2.2, >= 2.2.0.2)
+      logging (~> 1.6, >= 1.6.1)
+      nokogiri (~> 1.5)
+      rubyntlm (~> 0.1.1)
+      savon (= 0.9.5)
+      uuidtools (~> 2.1.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   berkshelf
-  kitchen-vagrant
-  octokit
-  test-kitchen
-  thor
   thor-scmversion
+  vagrant!
+  vagrant-aws
+  vagrant-berkshelf
+  vagrant-omnibus
+  vagrant-secret

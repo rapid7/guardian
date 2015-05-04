@@ -1,8 +1,12 @@
 ---
 driver:
   name: vagrant
+  network:
+    forwarded_port:
+      - guest: 443
+        host: 9443
   synced_folders:
-    - ['../', '/mnt']
+    - ['../', '/mnt/source']
 
 provisioner:
   name: chef_solo
@@ -16,4 +20,6 @@ suites:
       - recipe[guardian::default]
     attributes:
       guardian:
+        user: vagrant
+        group: vagrant
         version: development

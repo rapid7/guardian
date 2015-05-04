@@ -20,93 +20,73 @@
 require 'json'
 
 include_recipe 'apt'
-include_recipe 'runit'
 include_recipe 'nodejs'
 include_recipe 'nodejs::npm'
 
 package 'build-essential'
+package 'uuid-dev'
 
-group node['guardian']['group'] do
-  system true
-  not_if { node['guardian']['version'] == 'development' }
-end
-
+group node['guardian']['group'] { system true }
 user node['guardian']['user'] do
   system true
   home node['guardian']['home']
   group node['guardian']['group']
-  supports :manage_home => true
-  not_if { node['guardian']['version'] == 'development' }
 end
 
-directory node['guardian']['path'] do
-  owner node['guardian']['user']
-  group node['guardian']['group']
-  mode '0755'
-  not_if { node['guardian']['version'] == 'development' }
-end
-
-directory ::File.join(node['guardian']['path'], 'config') do
-  owner node['guardian']['user']
-  group node['guardian']['group']
-  mode '0755'
-  not_if { node['guardian']['version'] == 'development' }
-end
-
-directory node['guardian']['run'] do
-  owner node['guardian']['user']
-  group node['guardian']['group']
-  mode '0755'
+[node['guardian']['home'],
+ node['guardian']['conf'],
+ node['guardian']['path'],
+ node['guardian']['run']].each do |service_directory|
+  directory service_directory do
+    owner node['guardian']['user']
+    group node['guardian']['group']
+    mode '0755'
+  end
 end
 
 ## WTF is this? Watch https://www.youtube.com/watch?v=Dq_vGxd-jps
-asset = github_asset "guardian-#{ node['guardian']['version'] }.tar.gz" do
-  repo 'rapid7/guardian'
-  release node['guardian']['version']
-  not_if { node['guardian']['version'] == 'development' }
-end
-
-libarchive_file 'guardian-source.tar.gz' do
-  path asset.asset_path
-  extract_to node['guardian']['path']
-  owner node['guardian']['user']
-  group node['guardian']['group']
-  notifies :install, 'nodejs_npm[guardian]'
-  not_if { node['guardian']['version'] == 'development' }
-end
-
-## Development. Use shared folder
-directory '/mnt/source/node_modules' do
-  owner node['guardian']['user']
-  group node['guardian']['group']
-  only_if { node['guardian']['version'] == 'development' }
-end
-
-link node['guardian']['path'] do
-  to '/mnt/source'
-  only_if { node['guardian']['version'] == 'development' }
-end
+# asset = github_asset "guardian-#{ node['guardian']['version'] }.tar.gz" do
+#   repo 'rapid7/guardian'
+#   release node['guardian']['version']
+#   not_if { node['guardian']['version'] == 'development' }
+# end
+#
+# libarchive_file 'guardian-source.tar.gz' do
+#   path asset.asset_path
+#   extract_to node['guardian']['path']
+#   owner node['guardian']['user']
+#   group node['guardian']['group']
+#   notifies :install, 'nodejs_npm[guardian]'
+#   not_if { node['guardian']['version'] == 'development' }
+# end
 
 nodejs_npm 'guardian' do
   path node['guardian']['path']
   user node['guardian']['user']
   json true
-  action node['guardian']['version'] == 'development' ? :install : :nothing
-  notifies :restart, 'runit_service[guardian]'
+
+  # notifies :restart, 'runit_service[guardian]'
 end
 
-template ::File.join(node['guardian']['path'], 'config', 'chef.json') do
+template ::File.join(node['guardian']['conf'], 'chef.json') do
+  helpers JSON
   source 'conf.json.erb'
   owner node['guardian']['user']
   group node['guardian']['group']
   mode '0600'
-  helpers JSON
-  notifies :restart, 'runit_service[guardian]'
+  backup false
+
+  # notifies :restart, 'service[guardian]'
 end
 
-runit_service 'guardian' do
-  default_logger true
-  options :user => node['guardian']['user'],
-          :bindir => ::File.join(node['guardian']['path'], 'bin')
-  action [:enable, :start]
+## Service
+template '/etc/init/guardian.conf' do
+  source 'guardian.upstart.erb'
+  backup false
+end
+
+service 'guardian' do
+  supports :restart => true, :status => true
+  action node['guardian']['service']['action']
+  provider Chef::Provider::Service::Upstart
 end

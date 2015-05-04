@@ -1,27 +1,25 @@
 var Express = require('express');
 var FS = require('fs');
 var HTTP = require('http');
-require('../lib/config');
 
-var Auth = require('../lib/auth');
-var BodyParser = require('body-parser');
-var CookieParser = require('cookie-parser');
+require('../lib/config');
+require('../lib/model/store').connect(Config.get('service:store'));
 
 var app = Express();
 var server = HTTP.createServer(app);
 
-app.use(CookieParser());
-app.use(BodyParser.json());
-app.use(BodyParser.urlencoded({
-  extended: true
-}));
+var manage = Express.Router();
+require('../lib/control/body').attach(manage);
+require('../lib/control/routes').attach(manage);
 
-require('../lib/session').attach(app);
+require('../lib/control/id').attach(app);
+require('../lib/control/cookie').attach(app, Config.get('cookie'));
+require('../lib/control/session').attach(app);
+require('../lib/control/log').attach(app);
+require('../lib/control/authn').attach(app);
+require('../lib/control/authz').attach(app);
 
-Auth.attach(app);
-require('../lib/control/login').attach(app);
-require('../lib/control/debug').attach(app);
-Auth.enforce(app);
+app.use('/_guardian', manage);
 require('../lib/control/proxy').attach(app);
 
 if (Config.get('service:listen') != 'socket')

@@ -19,5 +19,5 @@ cookbook/bin/*
 .kitchen.local.yml
 
 node_modules
-config
+conf
 VERSION

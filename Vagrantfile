@@ -12,7 +12,8 @@ Vagrant.configure('2') do |config|
   # end
 
   config.vm.network :forwarded_port, :host => 8443, :guest => 443
-  config.vm.synced_folder './', '/mnt/source'
+  config.vm.network :forwarded_port, :host => 2379, :guest => 2379
+  config.vm.synced_folder './', '/usr/local/guardian'
 
   config.omnibus.chef_version = :latest
   config.berkshelf.enabled = true
@@ -21,14 +22,26 @@ Vagrant.configure('2') do |config|
   config.vm.provision :chef_solo do |chef|
     chef.log_level = :info
     chef.json = {
-      'guardian' => {
-        'user' => 'vagrant',
-        'group' => 'vagrant',
-        'version' => 'development'
+      :vagrant => true,
+      :guardian => {
+        :user => 'vagrant',
+        :group => 'vagrant',
+        :home => '/home/vagrant',
+        :service => {
+          :action => :nothing
+        },
+        :config => {
+          :service => {
+            :domain => {
+              :port => 8443
+            }
+          }
+        }
       }
     }
 
     chef.run_list = [
+      'recipe[etcd-v2::node]',
       'recipe[guardian::default]'
     ]
   end

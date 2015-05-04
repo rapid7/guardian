@@ -1,0 +1,15 @@
+#
+# Cookbook Name:: guardian
+# Template:: guardian.upstart.erb
+#
+author  "Rapid7 LLC <coreservices@rapid7.com>"
+description "Guardian authentication service"
+
+setuid <%= node['guardian']['user'] %>
+setgid <%= node['guardian']['group'] %>
+
+start on (virtual-filesystems and net-device-up IFACE!=lo)
+stop on shutdown
+
+console log
+exec <%= ::File.join(node['guardian']['path'], 'bin/server') %>

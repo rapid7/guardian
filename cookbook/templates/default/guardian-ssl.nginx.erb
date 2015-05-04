@@ -18,13 +18,13 @@
 # limitations under the License.
 #
 server {
-  listen 443;
+  listen <%= node['guardian']['nginx']['listen'] %>;
 
   ssl on;
   ssl_certificate <%= node['guardian']['ssl_cert'] %>;
   ssl_certificate_key <%= node['guardian']['ssl_key'] %>;
 
   location / {
-    proxy_pass http://unix:<%= node['guardian']['config']['service']['socket'] %>:;
+    proxy_pass http://<%= node['guardian']['nginx']['upstream'] %>;
   }
 }

@@ -21,16 +21,24 @@
 default['guardian']['user'] = 'guardian'
 default['guardian']['group'] = 'guardian'
 default['guardian']['home'] = '/srv/guardian'
-default['guardian']['repo'] = 'rapid7/guardian'
+default['guardian']['conf'] = '/etc/guardian'
 default['guardian']['path'] = '/usr/local/guardian'
 default['guardian']['run'] = '/var/run/guardian'
 
+default['guardian']['repo'] = 'rapid7/guardian'
+default['guardian']['version'] = Chef::Recipe::Guardian.version(run_context)
+
+default['guardian']['service']['action'] = [:start, :enable]
+default['guardian']['service']['listen'] = ::File.join(node['guardian']['run'], 'service.sock')
+
+default['guardian']['nginx']['listen'] = 443
+default['guardian']['nginx']['upstream'] = "unix:#{ node['guardian']['service']['listen'] }:"
+
 ## Service Configuration
 default['guardian']['config']['service']['domain']['protocol'] = 'https'
-default['guardian']['config']['service']['domain']['port'] = '8443'
-default['guardian']['config']['service']['socket'] = ::File.join(node['guardian']['run'], 'service.sock')
+default['guardian']['config']['service']['domain']['port'] = node['guardian']['nginx']['listen']
+default['guardian']['config']['service']['socket'] = node['guardian']['service']['listen']
 
-default['guardian']['version'] = Chef::Recipe::Guardian.version(run_context)
 default['nodejs']['install_method'] = 'package'
 
 default['guardian']['ssl_cert'] = '/etc/nginx/certs/guardian.cert.pem'

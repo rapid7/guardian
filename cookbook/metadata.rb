@@ -8,6 +8,6 @@ long_description IO.read('../README.md') rescue ''
 version IO.read('../VERSION') rescue '0.0.1'
 
 depends 'apt'
-depends 'github', '~> 0.3.0'
+depends 'etcd-v2', '~> 1.0'
+# depends 'github', '~> 0.3.0'
 depends 'nodejs'
-depends 'runit'
