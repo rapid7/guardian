@@ -1,0 +1,47 @@
+var Accounting = require('../lib/model/accounting');
+
+require('../lib/config');
+require('../lib/model/store').connect(Config.get('db'));
+
+var Options = require('optimist')
+  .options('a', {
+    alias: 'action',
+    demand: true
+  })
+  .options('u', {
+    alias: 'user'
+  });
+
+args = Options.argv;
+
+switch (args.action) {
+  case 'init':
+    var admin = Accounting.Authorization.byName('Administrator');
+    admin.statements.push({
+      action: '*',
+      resource: ['*']
+    });
+
+    admin.getOrCreate(function(err, auth) {
+      if (err) return console.log(err);
+      console.log("Success: " + auth.id);
+    });
+    break;
+
+  case 'add':
+    if (!args.user) {
+      console.error('A username must be supplied');
+      return Options.showHelp();
+    }
+
+    var auth = Accounting.Authorization.byName('Administrator');
+    var user = Accounting.User.byName(args.user);
+    user.updateOrCreate({
+      authorizations: {
+        $union: [auth.id]
+      }
+    }, function(err, user) {
+      if (err) return console.log(err);
+      console.log("Success: " + user.id);
+    });
+}
