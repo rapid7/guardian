@@ -17,7 +17,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 default['guardian']['user'] = 'guardian'
 default['guardian']['group'] = 'guardian'
 default['guardian']['home'] = '/srv/guardian'
@@ -29,14 +28,15 @@ default['guardian']['repo'] = 'rapid7/guardian'
 default['guardian']['version'] = Chef::Recipe::Guardian.version(run_context)
 
 default['guardian']['service']['action'] = [:start, :enable]
-default['guardian']['service']['listen'] = ::File.join(node['guardian']['run'], 'service.sock')
+default['guardian']['service']['socket'] = ::File.join(node['guardian']['run'], 'service.sock')
 
 default['guardian']['nginx']['listen'] = 443
-default['guardian']['nginx']['upstream'] = "unix:#{ node['guardian']['service']['listen'] }:"
+default['guardian']['nginx']['upstream'] = "unix:#{ node['guardian']['service']['socket'] }:"
 
 ## Service Configuration
-default['guardian']['config']['service']['domain']['protocol'] = 'https'
-default['guardian']['config']['service']['domain']['port'] = node['guardian']['nginx']['listen']
+default['guardian']['config']['proxy']['downstream']['protocol'] = 'https:'
+default['guardian']['config']['proxy']['downstream']['port'] = node['guardian']['nginx']['listen']
+default['guardian']['config']['service']['listen'] = 'socket'
 default['guardian']['config']['service']['socket'] = node['guardian']['service']['listen']
 
 default['nodejs']['install_method'] = 'package'

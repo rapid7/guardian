@@ -31,8 +31,8 @@ Vagrant.configure('2') do |config|
           :action => :nothing
         },
         :config => {
-          :service => {
-            :domain => {
+          :proxy => {
+            :downstream => {
               :port => 8443
             }
           }
