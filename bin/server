@@ -3,24 +3,18 @@ var FS = require('fs');
 var HTTP = require('http');
 
 require('../lib/config');
-require('../lib/model/store').connect(Config.get('service:store'));
+require('../lib/model/store').connect(Config.get('db'));
 
 var app = Express();
 var server = HTTP.createServer(app);
 
-var manage = Express.Router();
-require('../lib/control/body').attach(manage);
-require('../lib/control/routes').attach(manage);
-
-require('../lib/control/id').attach(app);
+require('../lib/control/logger').attach(app);
 require('../lib/control/cookie').attach(app, Config.get('cookie'));
 require('../lib/control/session').attach(app);
-require('../lib/control/log').attach(app);
-require('../lib/control/authn').attach(app);
+require('../lib/control/authn').attach(app, Config.get('strategy'));
 require('../lib/control/authz').attach(app);
-
-app.use('/_guardian', manage);
-require('../lib/control/proxy').attach(app);
+require('../lib/control/routes').attach(app);
+require('../lib/control/proxy').attach(app, Config.get('proxy'));
 
 if (Config.get('service:listen') != 'socket')
   return server.listen(Config.get('service:listen'), function() {
@@ -29,8 +23,10 @@ if (Config.get('service:listen') != 'socket')
 
 console.log('Opening UNIX socket ' + Config.get('service:socket'));
 try {
+  // Clean up socket file if it already exists
   FS.unlinkSync(Config.get('service:socket'));
 } catch(e) {}
+
 server.listen(Config.get('service:socket'), function() {
   console.log('Listening on UNIX socket ' + Config.get('service:socket'));
 });
