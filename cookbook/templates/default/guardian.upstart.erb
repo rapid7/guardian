@@ -12,4 +12,5 @@ start on (virtual-filesystems and net-device-up IFACE!=lo)
 stop on shutdown
 
 console log
-exec <%= ::File.join(node['guardian']['path'], 'bin/server') %>
+exec <%= node['nodejs']['binpath'] %>\
+  <%= ::File.join(node['guardian']['path'], 'bin/server') %>

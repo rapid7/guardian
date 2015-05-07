@@ -39,6 +39,7 @@ default['guardian']['config']['proxy']['downstream']['port'] = node['guardian'][
 default['guardian']['config']['service']['listen'] = 'socket'
 default['guardian']['config']['service']['socket'] = node['guardian']['service']['listen']
 
+default['nodejs']['binpath'] = '/usr/bin/node'
 default['nodejs']['install_method'] = 'package'
 
 default['guardian']['ssl_cert'] = '/etc/nginx/certs/guardian.cert.pem'

@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: guardian
-# Recipe:: nginx
+# Recipe:: snakeoil
 #
 # Copyright (C) 2015, Rapid7, LLC.
 # License:: Apache License, Version 2.0
@@ -17,34 +17,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-package 'nginx'
-package 'haveged'
+file 'guardian-key' do
+  path node['guardian']['ssl_key']
+  content `openssl genrsa 4096 2>/dev/null`
+  mode '0400'
 
-link '/etc/nginx/sites-enabled/default' do
-  action :delete
-  notifies :restart, 'service[nginx]'
+  backup false
+  action :create_if_missing
 end
 
-## SSL
-directory '/etc/nginx/certs' do
-  mode '0700'
-end
-include_recipe "#{ cookbook_name }::snakeoil"
-
-template '/etc/nginx/nginx.conf' do
-  source 'nginx.erb'
-  notifies :restart, 'service[nginx]'
-end
-
-template '/etc/nginx/sites-available/guardian-ssl' do
-  source 'guardian-ssl.nginx.erb'
-  notifies :restart, 'service[nginx]'
-end
-link '/etc/nginx/sites-enabled/00-guardian-ssl' do
-  to '/etc/nginx/sites-available/guardian-ssl'
-  notifies :restart, 'service[nginx]'
+ruby_block 'generate-snakeoil-cert' do
+  block do
+    ## Generate certificate after key is converged, but before certificate file
+    ## resource is converged
+    resources('file[guardian-cert]').content(`openssl req -new\
+      -key #{ node['guardian']['ssl_key'] } -days 365 -nodes -x509\
+      -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com" 2>/dev/null`)
+  end
 end
 
-service 'nginx' do
-  action [:start, :enable]
+file 'guardian-cert' do
+  path node['guardian']['ssl_cert']
+
+  backup false
+  action :create_if_missing
 end
