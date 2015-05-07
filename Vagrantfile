@@ -27,9 +27,9 @@ Vagrant.configure('2') do |config|
         :user => 'vagrant',
         :group => 'vagrant',
         :home => '/home/vagrant',
-        :service => {
-          :action => :nothing
-        },
+        # :service => {
+        #   :action => :nothing
+        # },
         :config => {
           :proxy => {
             :downstream => {
