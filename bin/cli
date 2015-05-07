@@ -1,7 +1,8 @@
-var Accounting = require('../lib/model/accounting');
+#!/usr/bin/env node
 
 require('../lib/config');
 require('../lib/model/store').connect(Config.get('db'));
+var Accounting = require('../lib/model/accounting');
 
 var Options = require('optimist')
   .options('a', {
@@ -42,6 +43,6 @@ switch (args.action) {
       }
     }, function(err, user) {
       if (err) return console.log(err);
-      console.log("Success: " + user.id);
+      console.log("Success: " + user.id + ' -> ' + auth.id);
     });
 }
