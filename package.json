@@ -6,6 +6,7 @@
   "main": "bin/server.js",
   "dependencies": {
     "cookie": "0.1.x",
+    "ejs": "2.3.x",
     "etcdjs": "2.2.0",
     "express": "4.x",
     "libuuid": "0.1.3",
@@ -14,7 +15,8 @@
     "passport": "0.2.x",
     "passport-oauth2": "1.1.x",
     "passport-saml": "0.7.x",
-    "qs": "2.4.x"
+    "qs": "2.4.x",
+    "serve-static": "1.9.x"
   },
   "repository": {
     "type": "git",

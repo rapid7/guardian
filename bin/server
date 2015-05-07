@@ -1,12 +1,16 @@
 var Express = require('express');
 var FS = require('fs');
 var HTTP = require('http');
+var Path = require('path');
 
 require('../lib/config');
 require('../lib/model/store').connect(Config.get('db'));
 
 var app = Express();
 var server = HTTP.createServer(app);
+
+app.engine('ejs', require('ejs').renderFile);
+app.set('views', Path.resolve(__dirname, '../template'));
 
 require('../lib/control/logger').attach(app);
 require('../lib/control/cookie').attach(app, Config.get('cookie'));
