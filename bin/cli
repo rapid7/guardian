@@ -2,22 +2,24 @@
 
 require('../lib/config');
 require('../lib/model/store').connect(Config.get('db'));
+
+var FS = require('fs');
+var Path = require('path');
 var Accounting = require('../lib/model/accounting');
 
 var Options = require('optimist')
   .options('a', {
     alias: 'action',
     demand: true
-  })
-  .options('u', {
-    alias: 'user'
   });
 
-args = Options.argv;
-
+var args = Options.argv;
 switch (args.action) {
-  case 'init':
+  case 'admin:init':
+    var args = Options.argv;
+
     var admin = Accounting.Authorization.byName('Administrator');
+    admin.description = 'Full access to all resources';
     admin.statements.push({
       action: '*',
       resource: ['*']
@@ -25,24 +27,116 @@ switch (args.action) {
 
     admin.getOrCreate(function(err, auth) {
       if (err) return console.log(err);
-      console.log("Success: " + auth.id);
+      console.log('Created  ' + auth.id);
     });
     break;
 
-  case 'add':
-    if (!args.user) {
-      console.error('A username must be supplied');
-      return Options.showHelp();
-    }
+  case 'admin:add':
+    Options.options('u', {
+      alias: 'user',
+      demand: true
+    });
+    var args = Options.argv;
 
     var auth = Accounting.Authorization.byName('Administrator');
     var user = Accounting.User.byName(args.user);
     user.updateOrCreate({
       authorizations: {
-        $union: [auth.id]
+        $push: [auth.id]
       }
     }, function(err, user) {
       if (err) return console.log(err);
-      console.log("Success: " + user.id + ' -> ' + auth.id);
+      console.log('Authorized: ' + user.id + ' -> ' + auth.id);
     });
+    break;
+
+  case 'auth:rm':
+    Options.options('n', {
+      alias: 'name',
+      demand: true
+    });
+    var args = Options.argv;
+
+    Accounting.Authorization
+      .byName(args.name)
+      .findAndDelete(function(err, auth, deleted) {
+        if (err) return console.log(err);
+        console.log('Deleted: ' + deleted);
+      });
+    break;
+
+  case 'auth:import':
+    Options.options('n', {
+      alias: 'name',
+      demand: true
+    })
+    .options('f', {
+      alias: 'file',
+      demand: true
+    });
+    var args = Options.argv;
+
+    var file = Path.resolve(process.cwd(), args.file);
+    if (!FS.existsSync(file))
+      return console.log('File ' + file + ' does not exist!');
+
+    Accounting.Authorization
+      .byName(args.name)
+      .updateOrCreate(JSON.parse(FS.readFileSync(file).toString('utf8')), function(err, auth) {
+        if (err) return console.log(err);
+        console.log('Created: ' + auth.id);
+      });
+    break;
+
+  case 'user:auth':
+    Options.options('u', {
+      alias: 'user',
+      demand: true
+    });
+    var args = Options.argv;
+
+    var auths = args._.map(function(a) {
+      return Accounting.Authorization.byName(a).id;
+    });
+
+    var user = Accounting.User.byName(args.user);
+    user.updateOrCreate({
+      authorizations: {
+        $push: auths
+      }
+    }, function(err, user) {
+      if (err) return console.log(err);
+      console.log('Updated: ' + user.id + ' -> ' + user.authorizations);
+    });
+    break;
+
+  case 'user:unauth':
+    Options.options('u', {
+      alias: 'user',
+      demand: true
+    });
+    var args = Options.argv;
+
+    var auths = args._.map(function(a) {
+      return Accounting.Authorization.byName(a).id;
+    });
+    Accounting.User.byName(args.user).get(function(err, user) {
+      if (err) return console.log(err);
+      if(user.isNew) return console.log('User ' + user.name + ' is not defined');
+
+      // Find authorizations to delete
+      for(var i = 0; i < user.authorizations.length; i++) {
+        if (auths.indexOf(user.authorizations[i]) > -1)
+        user.authorizations.splice(i, 1);
+      }
+
+      user.save(function(err) {
+        if (err) return console.log(err);
+        console.log('Updated: ' + user.id + ' -> ' + user.authorizations);
+      });
+    });
+
+    break;
+  default:
+    throw ReferenceError('Unrecognized action ' + args.action);
 }
