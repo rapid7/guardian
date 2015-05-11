@@ -19,5 +19,10 @@ cookbook/bin/*
 .kitchen.local.yml
 
 node_modules
+node_modules/*
 conf
+conf/*
 VERSION
+
+.DS_Store
+.temp/

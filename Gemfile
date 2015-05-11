@@ -3,11 +3,13 @@ ruby '2.2.2'
 
 # gem install bundler -v 1.7.15
 gem 'berkshelf'
-gem 'thor-scmversion'
+gem 'chef_life', :path => '../chef_life' # :github => 'jmanero/chef_life'
 
-gem 'vagrant', :github => 'mitchellh/vagrant', :tag => 'v1.7.2'
+gem 'vagrant', :github => 'mitchellh/vagrant',
+               :tag => 'v1.7.2',
+               :group => :development
 
-group :plugins do
+group :development, :plugins do
   gem 'vagrant-aws'
   gem 'vagrant-berkshelf'
   gem 'vagrant-omnibus'

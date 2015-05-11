@@ -1,0 +1,16 @@
+.bundle
+.bundle/*
+.git
+.git/*
+.kitchen
+.kitchen/*
+.vagrant
+.vagrant/*
+.rubocop.yml
+.ruby-version
+Gemfile
+Gemfile.lock
+Thorfile
+Vagrantfile
+cookbook
+cookbook/*
