@@ -37,6 +37,9 @@ Vagrant.configure('2') do |config|
               :port => 8443
             }
           }
+        },
+        :downstream => {
+          :enabled => true
         }
       }
     }

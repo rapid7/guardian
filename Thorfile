@@ -4,5 +4,7 @@ require 'bundler'
 require 'bundler/setup'
 require 'chef_life'
 
-artifact :node, 'guardian-source', :github => 'rapid7/guardian'
+project 'guardian'
+
 cookbook 'cookbook'
+artifact :node, 'source', :github => 'rapid7/guardian'
