@@ -13,4 +13,5 @@ stop on shutdown
 
 console log
 exec <%= node['nodejs']['binpath'] %>\
-  <%= ::File.join(node['guardian']['path'], 'bin/server') %>
+  <%= ::File.join(node['guardian']['path'], 'bin/server') %>\
+  -c <%= node['guardian']['conf'] %>

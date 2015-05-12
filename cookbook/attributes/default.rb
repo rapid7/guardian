@@ -28,19 +28,36 @@ default['guardian']['repo'] = 'rapid7/guardian'
 default['guardian']['version'] = Chef::Recipe::Guardian.version(run_context)
 
 default['guardian']['service']['action'] = [:start, :enable]
-default['guardian']['service']['socket'] = ::File.join(node['guardian']['run'], 'service.sock')
 
-default['guardian']['nginx']['listen'] = 443
-default['guardian']['nginx']['upstream'] = "unix:#{ node['guardian']['service']['socket'] }:"
+# default['guardian']['service']['listen'] = 9080
+default['guardian']['service']['listen'] = ::File.join(node['guardian']['run'], 'listen.sock')
+default['guardian']['downstream']['uri'] =
+  "unix:#{ node['guardian']['service']['listen'] }:"
+
+default['guardian']['service']['upstream'] =
+  ::File.join(node['guardian']['run'], 'upstream.sock')
+
+
+## Front-end SSL termination. Connect on a UNIX socket
+default['guardian']['downstream']['enabled'] = false
+default['guardian']['downstream']['ssl'] = true
+default['guardian']['downstream']['ssl_cert'] = '/etc/nginx/certs/guardian.cert.pem'
+default['guardian']['downstream']['ssl_key'] = '/etc/nginx/certs/guardian.key.pem'
+default['guardian']['downstream']['listen'] =
+  node['guardian']['downstream']['ssl'] ? 443 : 80
 
 ## Service Configuration
-default['guardian']['config']['proxy']['downstream']['protocol'] = 'https:'
-default['guardian']['config']['proxy']['downstream']['port'] = node['guardian']['nginx']['listen']
-default['guardian']['config']['service']['listen'] = 'socket'
-default['guardian']['config']['service']['socket'] = node['guardian']['service']['listen']
+default['guardian']['config']['proxy']['downstream']['protocol'] =
+  node['guardian']['downstream']['ssl'] ? 'https:' : 'http:'
+
+default['guardian']['config']['proxy']['downstream']['port'] =
+  node['guardian']['downstream']['listen']
+
+default['guardian']['config']['proxy']['upstream']['socketPath'] =
+  node['guardian']['service']['upstream']
+
+default['guardian']['config']['service']['listen'] =
+  node['guardian']['service']['listen']
 
 default['nodejs']['binpath'] = '/usr/bin/node'
 default['nodejs']['install_method'] = 'package'
-
-default['guardian']['ssl_cert'] = '/etc/nginx/certs/guardian.cert.pem'
-default['guardian']['ssl_key'] = '/etc/nginx/certs/guardian.key.pem'

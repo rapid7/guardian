@@ -18,7 +18,7 @@
 # limitations under the License.
 #
 file 'guardian-key' do
-  path node['guardian']['ssl_key']
+  path node['guardian']['downstream']['ssl_key']
   content `openssl genrsa 4096 2>/dev/null`
   mode '0400'
 
@@ -31,14 +31,14 @@ ruby_block 'generate-snakeoil-cert' do
     ## Generate certificate after key is converged, but before certificate file
     ## resource is converged
     resources('file[guardian-cert]').content(`openssl req -new\
-      -key #{ node['guardian']['ssl_key'] } -days 365 -nodes -x509\
+      -key #{ node['guardian']['downstream']['ssl_key'] } -days 365 -nodes -x509\
       -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com" 2>/dev/null`)
   end
 end
 
 file 'guardian-cert' do
-  path node['guardian']['ssl_cert']
+  path node['guardian']['downstream']['ssl_cert']
 
   backup false
-  action :create_if_missing
+  action :create
 end

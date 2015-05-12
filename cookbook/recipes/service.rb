@@ -20,6 +20,7 @@
 require 'json'
 
 include_recipe 'apt'
+include_recipe 'libarchive'
 include_recipe 'nodejs'
 include_recipe 'nodejs::npm'
 
@@ -44,21 +45,22 @@ end
   end
 end
 
-## WTF is this? Watch https://www.youtube.com/watch?v=Dq_vGxd-jps
-# asset = github_asset "guardian-#{ node['guardian']['version'] }.tar.gz" do
-#   repo 'rapid7/guardian'
-#   release node['guardian']['version']
-#   not_if { node['guardian']['version'] == 'development' }
-# end
-#
-# libarchive_file 'guardian-source.tar.gz' do
-#   path asset.asset_path
-#   extract_to node['guardian']['path']
-#   owner node['guardian']['user']
-#   group node['guardian']['group']
-#   notifies :install, 'nodejs_npm[guardian]'
-#   not_if { node['guardian']['version'] == 'development' }
-# end
+## Fetch and unpack application
+remote_file 'guardian-source' do
+  source node.guardian_artifact_url
+  path node.guardian_artifact_path
+  action :create_if_missing
+  not_if { node['vagrant'] }
+end
+
+libarchive_file 'guardian-source' do
+  path node.guardian_artifact_path
+  extract_to ::File.dirname(node['guardian']['path'])
+  owner node['guardian']['user']
+  group node['guardian']['group']
+  notifies :install, 'nodejs_npm[guardian]'
+  not_if { node['vagrant'] }
+end
 
 nodejs_npm 'guardian' do
   path node['guardian']['path']
@@ -68,7 +70,7 @@ nodejs_npm 'guardian' do
   # notifies :restart, 'runit_service[guardian]'
 end
 
-template ::File.join(node['guardian']['conf'], 'chef.json') do
+template ::File.join(node['guardian']['conf'], 'site.json') do
   helpers JSON
   source 'conf.json.erb'
   owner node['guardian']['user']
