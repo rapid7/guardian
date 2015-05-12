@@ -20,17 +20,27 @@ require('../lib/control/authz').attach(app);
 require('../lib/control/routes').attach(app);
 require('../lib/control/proxy').attach(app, Config.get('proxy'));
 
-if (Config.get('service:listen') != 'socket')
+// Listen on a TCP port
+if (+(Config.get('service:listen'))) {
   return server.listen(Config.get('service:listen'), function() {
     console.log('Listening on TCP port ' + Config.get('service:listen'));
   });
+}
 
-console.log('Opening UNIX socket ' + Config.get('service:socket'));
+// Listen on a UNIX socket
+console.log('Opening UNIX socket ' + Config.get('service:listen'));
+
+// Check if directory exists, and is a directory
+var stats = FS.statSync(Path.dirname(Config.get('service:listen')));
+if(!stats.isDirectory()){
+  throw Error('Socket path must be in an existing direcotry!');
+}
+
+// Try to clean up socket file if it already exists
 try {
-  // Clean up socket file if it already exists
-  FS.unlinkSync(Config.get('service:socket'));
+  FS.unlinkSync(Config.get('service:listen'));
 } catch(e) {}
 
-server.listen(Config.get('service:socket'), function() {
+server.listen(Config.get('service:listen'), function() {
   console.log('Listening on UNIX socket ' + Config.get('service:socket'));
 });
