@@ -70,13 +70,7 @@ switch (args._.shift()) {
     break;
 
   case 'auth:import':
-    options('f', {
-      alias: 'file',
-      demand: true
-    });
-    var args = Options.argv;
-
-    var file = Path.resolve(process.cwd(), args.file);
+    var file = Path.resolve(process.cwd(), args._.shift());
     if (!FS.existsSync(file))
       return console.log('File ' + file + ' does not exist!');
 

@@ -7,4 +7,5 @@ require 'chef_life'
 project 'guardian'
 
 cookbook 'cookbook'
-artifact :node, 'source', :github => 'rapid7/guardian'
+artifact :node, 'source', :github => 'rapid7/guardian',
+                          :version => IO.read('VERSION')
