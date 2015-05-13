@@ -46,6 +46,7 @@ Vagrant.configure('2') do |config|
 
     chef.run_list = [
       'recipe[etcd-v2::node]',
+      'recipe[guardian::snakeoil]',
       'recipe[guardian::default]'
     ]
   end
