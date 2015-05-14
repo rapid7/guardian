@@ -18,15 +18,15 @@
 # limitations under the License.
 #
 server {
-  listen <%= node['guardian']['front_end']['listen'] %>;
+  listen <%= node['guardian']['frontend']['listen'] %>;
 
-  <% if node['guardian']['front_end']['ssl'] -%>
+  <% if node['guardian']['frontend']['ssl'] -%>
   ssl on;
-  ssl_certificate <%= node['guardian']['front_end']['ssl_cert'] %>;
-  ssl_certificate_key <%= node['guardian']['front_end']['ssl_key'] %>;
+  ssl_certificate <%= node['guardian']['frontend']['ssl_cert'] %>;
+  ssl_certificate_key <%= node['guardian']['frontend']['ssl_key'] %>;
   <% end -%>
 
   location / {
-    proxy_pass http://<%= node['guardian']['front_end']['uri'] %>;
+    proxy_pass http://<%= node['guardian']['frontend']['uri'] %>;
   }
 }

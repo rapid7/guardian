@@ -31,7 +31,7 @@ default['guardian']['service']['action'] = [:start, :enable]
 
 # default['guardian']['service']['listen'] = 9080
 default['guardian']['service']['listen'] = ::File.join(node['guardian']['run'], 'listen.sock')
-default['guardian']['front_end']['uri'] =
+default['guardian']['frontend']['uri'] =
   "unix:#{ node['guardian']['service']['listen'] }:"
 
 default['guardian']['service']['upstream'] =
@@ -41,20 +41,21 @@ default['guardian']['service']['upstream'] =
 default['guardian']['router']['service']['listen'] =
   node['guardian']['service']['upstream']
 default['guardian']['router']['service']['routes'] = Mash.new
+default['guardian']['router']['service']['rewrites'] = Mash.new
 
 ## Front-end SSL termination. Connect on a UNIX socket
-default['guardian']['front_end']['ssl'] = true
-default['guardian']['front_end']['ssl_cert'] = '/etc/nginx/certs/guardian.cert.pem'
-default['guardian']['front_end']['ssl_key'] = '/etc/nginx/certs/guardian.key.pem'
-default['guardian']['front_end']['listen'] =
-  node['guardian']['front_end']['ssl'] ? 443 : 80
+default['guardian']['frontend']['ssl'] = true
+default['guardian']['frontend']['ssl_cert'] = '/etc/nginx/certs/guardian.cert.pem'
+default['guardian']['frontend']['ssl_key'] = '/etc/nginx/certs/guardian.key.pem'
+default['guardian']['frontend']['listen'] =
+  node['guardian']['frontend']['ssl'] ? 443 : 80
 
 ## Service Configuration
-default['guardian']['config']['proxy']['front_end']['protocol'] =
-  node['guardian']['front_end']['ssl'] ? 'https:' : 'http:'
+default['guardian']['config']['proxy']['frontend']['protocol'] =
+  node['guardian']['frontend']['ssl'] ? 'https:' : 'http:'
 
-default['guardian']['config']['proxy']['front_end']['port'] =
-  node['guardian']['front_end']['listen']
+default['guardian']['config']['proxy']['frontend']['port'] =
+  node['guardian']['frontend']['listen']
 
 default['guardian']['config']['proxy']['upstream']['socketPath'] =
   node['guardian']['service']['upstream']

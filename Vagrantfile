@@ -37,9 +37,6 @@ Vagrant.configure('2') do |config|
               :port => 8443
             }
           }
-        },
-        :frontend => {
-          :enabled => true
         }
       }
     }
