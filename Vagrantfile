@@ -33,12 +33,12 @@ Vagrant.configure('2') do |config|
         # },
         :config => {
           :proxy => {
-            :downstream => {
+            :frontend => {
               :port => 8443
             }
           }
         },
-        :downstream => {
+        :frontend => {
           :enabled => true
         }
       }
@@ -46,8 +46,8 @@ Vagrant.configure('2') do |config|
 
     chef.run_list = [
       'recipe[etcd-v2::node]',
-      'recipe[guardian::snakeoil]',
-      'recipe[guardian::default]'
+      'recipe[guardian::default]',
+      'recipe[guardian::snakeoil]'
     ]
   end
 end

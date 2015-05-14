@@ -19,3 +19,4 @@
 #
 include_recipe 'guardian::nginx'
 include_recipe 'guardian::service'
+include_recipe 'guardian::router'

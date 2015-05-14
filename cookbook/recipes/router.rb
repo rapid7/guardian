@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: guardian
-# Recipe:: nginx
+# Recipe:: router
 #
 # Copyright (C) 2015, Rapid7, LLC.
 # License:: Apache License, Version 2.0
@@ -17,36 +17,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include_recipe 'apt'
+require 'json'
+include_recipe "#{ cookbook_name }::base"
 
-package 'nginx'
-package 'haveged'
+template ::File.join(node['guardian']['conf'], 'router.json') do
+  helpers JSON
+  source 'json.erb'
+  variables :json => node['guardian']['router']
+  owner node['guardian']['user']
+  group node['guardian']['group']
+  mode '0600'
+  backup false
 
-link '/etc/nginx/sites-enabled/default' do
-  action :delete
-  notifies :restart, 'service[nginx]'
+  # notifies :restart, 'service[guardian]'
 end
 
-## SSL
-directory '/etc/nginx/certs' do
-  mode '0700'
+## Service
+template '/etc/init/guardian-router.conf' do
+  source 'upstart.erb'
+  variables :bin_path => 'bin/router'
+  backup false
 end
 
-template '/etc/nginx/nginx.conf' do
-  source 'nginx.erb'
-  notifies :restart, 'service[nginx]'
-end
-
-template '/etc/nginx/sites-available/guardian-ssl' do
-  source 'guardian-frontend.nginx.erb'
-  notifies :restart, 'service[nginx]'
-end
-
-link '/etc/nginx/sites-enabled/00-guardian-ssl' do
-  to '/etc/nginx/sites-available/guardian-ssl'
-  notifies :restart, 'service[nginx]'
-end
-
-service 'nginx' do
-  action [:start, :enable]
+service 'guardian-router' do
+  supports :restart => true, :status => true
+  action node['guardian']['service']['action']
+  provider Chef::Provider::Service::Upstart
 end

@@ -18,61 +18,12 @@
 # limitations under the License.
 #
 require 'json'
-
-include_recipe 'apt'
-include_recipe 'libarchive'
-include_recipe 'nodejs'
-include_recipe 'nodejs::npm'
-
-package 'build-essential'
-package 'uuid-dev'
-
-group node['guardian']['group'] { system true }
-user node['guardian']['user'] do
-  system true
-  home node['guardian']['home']
-  group node['guardian']['group']
-end
-
-[node['guardian']['home'],
- node['guardian']['conf'],
- node['guardian']['path'],
- node['guardian']['run']].each do |service_directory|
-  directory service_directory do
-    owner node['guardian']['user']
-    group node['guardian']['group']
-    mode '0755'
-  end
-end
-
-## Fetch and unpack application
-remote_file 'guardian-source' do
-  source node.guardian_artifact_url
-  path node.guardian_artifact_path
-  action :create_if_missing
-  not_if { node['vagrant'] }
-end
-
-libarchive_file 'guardian-source' do
-  path node.guardian_artifact_path
-  extract_to ::File.dirname(node['guardian']['path'])
-  owner node['guardian']['user']
-  group node['guardian']['group']
-  notifies :install, 'nodejs_npm[guardian]'
-  not_if { node['vagrant'] }
-end
-
-nodejs_npm 'guardian' do
-  path node['guardian']['path']
-  user node['guardian']['user']
-  json true
-
-  # notifies :restart, 'runit_service[guardian]'
-end
+include_recipe "#{ cookbook_name }::base"
 
 template ::File.join(node['guardian']['conf'], 'site.json') do
   helpers JSON
-  source 'conf.json.erb'
+  source 'json.erb'
+  variables :json => node['guardian']['config']
   owner node['guardian']['user']
   group node['guardian']['group']
   mode '0600'
@@ -83,7 +34,8 @@ end
 
 ## Service
 template '/etc/init/guardian.conf' do
-  source 'guardian.upstart.erb'
+  source 'upstart.erb'
+  variables :bin_path => 'bin/server'
   backup false
 end
 

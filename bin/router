@@ -3,22 +3,38 @@ var FS = require('fs');
 var HTTP = require('http');
 var Path = require('path');
 
-require('../lib/config');
-require('../lib/model/store').connect(Config.get('db'));
+var CProxy = require('../lib/control/proxy');
+var Util = CProxy.Util;
+
+require('../lib/router/config');
 
 var app = Express();
 var server = HTTP.createServer(app);
 
-app.engine('ejs', require('ejs').renderFile);
-app.set('views', Path.resolve(__dirname, '../template'));
-
+// Attach Logger
 require('../lib/control/logger').attach(app);
-require('../lib/control/cookie').attach(app, Config.get('cookie'));
-require('../lib/control/session').attach(app);
-require('../lib/control/authn').attach(app, Config.get('strategy'));
-require('../lib/control/authz').attach(app);
-require('../lib/control/routes').attach(app);
-require('../lib/control/proxy').attach(app, Config.get('proxy'));
+
+// Attach redirects
+var rewrites = Config.get('rewrites');
+Object.keys(rewrites).forEach(function(path) {
+  console.log('Adding rewrite from ' + path + ' to ' + rewrites[path]);
+  app.use(path, function(req, res) {
+    res.redirect(rewrites[path]);
+  });
+});
+
+// Attach routes
+var routes = Config.get('routes');
+Object.keys(routes).forEach(function(path) {
+  console.log('Adding route ' + path);
+  app.use(path, CProxy.create(Util.defaults(routes[path], {
+    rewriteLocation: false
+  })));
+});
+
+app.get('/_router/config', function(req, res, next) {
+  res.json(Config.get());
+});
 
 // Listen on a TCP port
 if (+(Config.get('service:listen'))) {
