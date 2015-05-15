@@ -2,6 +2,7 @@ var Express = require('express');
 var FS = require('fs');
 var HTTP = require('http');
 var Path = require('path');
+var Static = require('serve-static');
 
 var CProxy = require('../lib/control/proxy');
 var Util = CProxy.Util;
@@ -31,6 +32,14 @@ Object.keys(routes).forEach(function(path) {
     rewriteLocation: false
   })));
 });
+
+// Attach static paths
+var statics = Config.get('static');
+Object.keys(statics).forEach(function(path) {
+  console.log('Adding satic server ' + path);
+  app.use(path, Static(statics[path]));
+});
+
 
 app.get('/_router/config', function(req, res, next) {
   res.json(Config.get());
