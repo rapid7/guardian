@@ -27,6 +27,8 @@ server {
   <% end -%>
 
   location / {
+    proxy_buffering off;
+    proxy_cache off;
     proxy_pass http://<%= node['guardian']['frontend']['uri'] %>;
   }
 }

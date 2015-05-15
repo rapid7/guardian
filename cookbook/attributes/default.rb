@@ -17,6 +17,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+include_attribute 'nodejs'
+default['nodejs']['binpath'] = '/usr/bin/node'
+default['nodejs']['install_method'] = 'package'
+
 default['guardian']['user'] = 'guardian'
 default['guardian']['group'] = 'guardian'
 default['guardian']['home'] = '/srv/guardian'
@@ -29,21 +33,20 @@ default['guardian']['version'] = Chef::Recipe::Guardian.version(run_context)
 
 default['guardian']['service']['action'] = [:start, :enable]
 
-# default['guardian']['service']['listen'] = 9080
-default['guardian']['service']['listen'] = ::File.join(node['guardian']['run'], 'listen.sock')
-default['guardian']['frontend']['uri'] =
-  "unix:#{ node['guardian']['service']['listen'] }:"
+## Guardian apps _can_ listen on TCP
+# default['guardian']['config']['service']['listen'] = 9080
+# default['guardian']['router']['service']['listen'] = 9081
 
-default['guardian']['service']['upstream'] =
+## UNIX sockets are prefered for internal communication
+default['guardian']['config']['service']['listen'] =
+  ::File.join(node['guardian']['run'], 'listen.sock')
+default['guardian']['router']['service']['listen'] =
   ::File.join(node['guardian']['run'], 'upstream.sock')
 
-## Upstram Router
-default['guardian']['router']['service']['listen'] =
-  node['guardian']['service']['upstream']
-default['guardian']['router']['service']['routes'] = Mash.new
-default['guardian']['router']['service']['rewrites'] = Mash.new
+## Front-end SSL termination via NGiNX
+default['guardian']['frontend']['uri'] =
+  "unix:#{ node['guardian']['config']['service']['listen'] }:"
 
-## Front-end SSL termination. Connect on a UNIX socket
 default['guardian']['frontend']['ssl'] = true
 default['guardian']['frontend']['ssl_cert'] = '/etc/nginx/certs/guardian.cert.pem'
 default['guardian']['frontend']['ssl_key'] = '/etc/nginx/certs/guardian.key.pem'
@@ -51,17 +54,13 @@ default['guardian']['frontend']['listen'] =
   node['guardian']['frontend']['ssl'] ? 443 : 80
 
 ## Service Configuration
+default['guardian']['config']['proxy']['upstream']['socketPath'] =
+  node['guardian']['router']['service']['listen']
 default['guardian']['config']['proxy']['frontend']['protocol'] =
-  node['guardian']['frontend']['ssl'] ? 'https:' : 'http:'
-
+  node['guardian']['frontend']['ssl'] ? 'https' : 'http'
 default['guardian']['config']['proxy']['frontend']['port'] =
   node['guardian']['frontend']['listen']
 
-default['guardian']['config']['proxy']['upstream']['socketPath'] =
-  node['guardian']['service']['upstream']
-
-default['guardian']['config']['service']['listen'] =
-  node['guardian']['service']['listen']
-
-default['nodejs']['binpath'] = '/usr/bin/node'
-default['nodejs']['install_method'] = 'package'
+## Upstram Router Configuration
+default['guardian']['router']['service']['routes'] = Mash.new
+default['guardian']['router']['service']['rewrites'] = Mash.new
