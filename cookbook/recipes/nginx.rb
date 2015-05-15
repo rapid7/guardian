@@ -37,13 +37,13 @@ template '/etc/nginx/nginx.conf' do
   notifies :restart, 'service[nginx]'
 end
 
-template '/etc/nginx/sites-available/guardian-ssl' do
+template '/etc/nginx/sites-available/guardian-frontend' do
   source 'guardian-frontend.nginx.erb'
   notifies :restart, 'service[nginx]'
 end
 
-link '/etc/nginx/sites-enabled/00-guardian-ssl' do
-  to '/etc/nginx/sites-available/guardian-ssl'
+link '/etc/nginx/sites-enabled/00-guardian-frontend' do
+  to '/etc/nginx/sites-available/guardian-frontend'
   notifies :restart, 'service[nginx]'
 end
 
