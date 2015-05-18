@@ -2,51 +2,29 @@
 <% include include/top.ejs %>
     <div class="container">
       <div class="page-header">
-        <h1>Users</h1>
+        <h1><i class="fa fa-user"></i>&nbsp;Users</h1>
       </div>
     </div>
     <div class="container">
       <div class="row">
         <div class="col-md-6 scrollable">
-          <div class="list-group" role="tabpanel">
-            <% Object.keys(users).forEach(function(id) { -%>
-            <a href="#<%= id %>" class="list-group-item" data-toggle="tab"><%= users[id].name %></a>
-            <% }) -%>
-          </div>
+          <div class="list-group" role="tabpanel" id="user-selector"></div>
         </div>
         <div class="col-md-6">
-          <div class="tab-content">
-            <% Object.keys(users).forEach(function(id) { -%>
-            <div class="panel panel-default tab-pane" id="<%= id %>">
-              <div class="panel-heading">
-                <h3 class="panel-title"><%= users[id].name %></h3>
-              </div>
-              <div class="panel-body">
-                <div class="row">
-                  <div class="col-md-12">
-                    <h4>Authentication Providers</h4>
-                    <div class="list-group">
-                      <% Object.keys(users[id].providers).forEach(function(pname) { -%>
-                      <div class="list-group-item"><%= pname %></div>
-                      <% }) -%>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <h4>Authorizations</h4>
-                    <div class="list-group" id="authorization-list">
-                      <% users[id].authorizationNames().forEach(function(auth) { -%>
-                      <a href="/_manage/authorizations#<%= auth.id %>" class="list-group-item"><%= auth.name %></a>
-                      <% }) -%>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <% }) -%>
-          </div>
+          <div class="tab-content" id="user-content"></div>
         </div>
       </div>
     </div>
+  <% include include/scripts.ejs %>
+  <script>
+    // Load teh datas
+<% Object.keys(users).forEach(function(id) { -%>
+    accounting.user('<%= id %>', <%- JSON.stringify(users[id]) %>);
+<% }); -%>
+
+<% Object.keys(authorizations).forEach(function(id) { -%>
+    accounting.authorization('<%= id %>', <%- JSON.stringify(authorizations[id]) %>);
+<% }); -%>
+  </script>
+  <script src="/_asset/app/js/user.js"></script>
 <% include include/bottom.ejs %>

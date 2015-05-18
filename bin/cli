@@ -10,7 +10,9 @@ var Accounting = require('../lib/model/accounting');
 var Options = require('optimist');
 
 var args = Options.argv;
-switch (args._.shift()) {
+var action = args._.shift();
+
+switch (action) {
   case 'admin:init':
     var admin = Accounting.Authorization.byName('Administrator');
     admin.description = 'Full access to all resources';
@@ -121,5 +123,5 @@ switch (args._.shift()) {
 
     break;
   default:
-    throw ReferenceError('Unrecognized action ' + args.action);
+    throw ReferenceError('Unrecognized action ' + action);
 }
