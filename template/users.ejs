@@ -15,16 +15,16 @@
         </div>
       </div>
     </div>
-  <% include include/scripts.ejs %>
-  <script>
+    <% include include/scripts.ejs %>
+    <script>
     // Load teh datas
 <% Object.keys(users).forEach(function(id) { -%>
-    accounting.user('<%= id %>', <%- JSON.stringify(users[id]) %>);
+      accounting.user('<%= id %>', <%- JSON.stringify(users[id]) %>);
 <% }); -%>
 
 <% Object.keys(authorizations).forEach(function(id) { -%>
-    accounting.authorization('<%= id %>', <%- JSON.stringify(authorizations[id]) %>);
+      accounting.authorization('<%= id %>', <%- JSON.stringify(authorizations[id]) %>);
 <% }); -%>
-  </script>
-  <script src="/_asset/app/js/user.js"></script>
+    </script>
+    <script src="/_asset/app/js/user.js"></script>
 <% include include/bottom.ejs %>
