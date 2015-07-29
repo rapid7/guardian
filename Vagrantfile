@@ -14,7 +14,7 @@ Vagrant.configure('2') do |config|
   config.vm.network :forwarded_port, :host => 8443, :guest => 443
   config.vm.network :forwarded_port, :host => 8080, :guest => 8080
   config.vm.network :forwarded_port, :host => 2379, :guest => 2379
-  config.vm.synced_folder './', '/usr/local/guardian'
+  config.vm.synced_folder './', '/home/vagrant/guardian'
 
   config.omnibus.chef_version = :latest
   config.berkshelf.enabled = true
@@ -42,9 +42,9 @@ Vagrant.configure('2') do |config|
     }
 
     chef.run_list = [
-      'recipe[etcd-v2::node]',
+      # 'recipe[etcd-v2::node]',
       'recipe[guardian::default]',
-      'recipe[guardian::snakeoil]'
+      # 'recipe[guardian::snakeoil]'
     ]
   end
 end
