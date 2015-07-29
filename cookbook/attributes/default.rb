@@ -17,15 +17,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include_attribute 'nodejs'
-default['nodejs']['binpath'] = '/usr/bin/node'
-default['nodejs']['install_method'] = 'package'
+# include_attribute 'nodejs'
+# default['nodejs']['binpath'] = '/usr/bin/node'
+# default['nodejs']['install_method'] = 'package'
 
 default['guardian']['user'] = 'guardian'
 default['guardian']['group'] = 'guardian'
 default['guardian']['home'] = '/srv/guardian'
 default['guardian']['conf'] = '/etc/guardian'
-default['guardian']['path'] = '/usr/local/guardian'
+default['guardian']['path'] = '/home/vagrant/guardian'
 default['guardian']['run'] = '/var/run/guardian'
 
 default['guardian']['repo'] = 'rapid7/guardian'

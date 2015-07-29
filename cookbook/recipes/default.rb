@@ -17,6 +17,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include_recipe 'guardian::nginx'
-include_recipe 'guardian::service'
-include_recipe 'guardian::router'
+include_recipe 'guardian::base'
