@@ -7,15 +7,17 @@
   "dependencies": {
     "cookie": "0.1.x",
     "ejs": "2.3.x",
-    "etcdjs": "2.2.0",
     "express": "4.x",
+    "jake": "8.x",
     "libuuid": "0.1.3",
+    "mysql": "2.8.x",
     "nconf": "0.7.x",
     "optimist": "0.6.x",
     "passport": "0.2.x",
     "passport-oauth2": "1.1.x",
     "passport-saml": "0.7.x",
     "qs": "2.4.x",
+    "sequelize": "3.5.x",
     "serve-static": "1.9.x"
   },
   "repository": {
@@ -26,7 +28,7 @@
     "SAML",
     "authentication"
   ],
-  "license": "Apache, Version 2.0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/rapid7/guardian/issues"
   },
