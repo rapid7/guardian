@@ -32,5 +32,8 @@
   "bugs": {
     "url": "https://github.com/rapid7/guardian/issues"
   },
-  "homepage": "https://github.com/rapid7/guardian"
+  "homepage": "https://github.com/rapid7/guardian",
+  "scripts": {
+    "postinstall": "jake db:init"
+  }
 }
