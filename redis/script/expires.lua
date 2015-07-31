@@ -15,7 +15,7 @@ local ckey = key .. ':cas'
 if redis.call('EXISTS', ckey) == 0 then return {0} end
 local ccas = redis.call('GET', ckey)
 
-if expire == nil then
+if expire < 0 then
   -- Clear expire
   if (redis.call('SET', ckey, ccas) == 0) or
      (redis.call('SET', key, redis.call('GET', key)) == 0) then
@@ -30,4 +30,4 @@ else
 end
 
 -- Return success and new CAS
-return {1, ccas, expire}
+return {1, ccas, redis.call('TTL', key)}

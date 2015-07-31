@@ -36,4 +36,4 @@ else
 end
 
 -- Return success and new CAS
-return {1, ncas, expire}
+return {1, ncas, redis.call('TTL', key)}
