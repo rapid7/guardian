@@ -23,12 +23,16 @@ local ncas = redis.sha1hex(value)
 
 if expire == nil then
   -- Set without expire
-  if (redis.call('SET', ckey, ncas) == 0) then return {0} end
-  if (redis.call('SET', key, value) == 0) then return {0} end
+  if (redis.call('SET', ckey, ncas) == 0) or
+     (redis.call('SET', key, value) == 0) then
+    return {0}
+  end
 else
   -- Set with expire
-  if (redis.call('SETEX', ckey, expire, ncas) == 0) then return {0} end
-  if (redis.call('SETEX', key, expire, value) == 0) then return {0} end
+  if (redis.call('SETEX', ckey, expire, ncas) == 0) or
+     (redis.call('SETEX', key, expire, value) == 0) then
+    return {0}
+  end
 end
 
 -- Return success and new CAS
