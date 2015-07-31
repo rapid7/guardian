@@ -14,5 +14,6 @@ if redis.call('EXISTS', ckey) == 0 then return {0} end
 -- Return valeu and CAS
 return {
   redis.call('GET', key),
-  redis.call('GET', ckey)
+  redis.call('GET', ckey),
+  redis.call('TTL', key)
 }

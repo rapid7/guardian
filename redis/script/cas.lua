@@ -32,4 +32,4 @@ else
 end
 
 -- Return success and new CAS
-return {1, ncas}
+return {1, ncas, expire}
