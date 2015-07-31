@@ -1,6 +1,6 @@
 -- Implement compare-and-set for Redis
 --
--- CAS key value match [expire] -> {success, match}
+-- CAS key value match [expire] -> {success, match, expire}
 -- Update an existing key. Return success flag and new CAS value
 
 local key = KEYS[1]

@@ -1,7 +1,7 @@
 -- Implement compare-and-set for Redis
 --
--- SETS key value [expire] -> {success, match}
--- Insert a new key. Return success flag and new CAS value
+-- EXPIRES key expire -> {success, match, expire}
+-- Set the TTLs for the key and its CAS-key
 
 local key = KEYS[1]
 local expire = tonumber(KEYS[2]) -- nil unless Numeric

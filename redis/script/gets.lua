@@ -1,6 +1,6 @@
 -- Implement compare-and-set for Redis
 --
--- GETS key -> {value, match}
+-- GETS key -> {value, match, expire}
 -- Fetch a key and its CAS
 
 local key = KEYS[1]
