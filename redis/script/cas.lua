@@ -19,7 +19,7 @@ local ccas = redis.call('GET', ckey)
 if not (match == ccas) then return {0} end
 
 -- Calculate new CAS
-local ncas = redis.sha1hex(value)
+local ncas = redis.sha1hex(key .. value)
 
 if expire == nil then
   -- Set without expire

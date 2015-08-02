@@ -15,7 +15,7 @@ local ckey = key .. ':cas'
 if redis.call('EXISTS', ckey) == 1 then return {0} end
 
 -- Calculate new CAS
-local ncas = redis.sha1hex(value)
+local ncas = redis.sha1hex(key .. value)
 
 if expire == nil then
   -- Set without expire
