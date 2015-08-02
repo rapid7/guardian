@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 require('../lib/config');
 
 var Express = require('express');
@@ -7,13 +8,15 @@ var HTTP = require('http');
 var app = module.exports = Express();
 var server = HTTP.createServer(app);
 
-var Body = require('../lib/mw/body');
-app.use(Body.aggregate);
-app.use(Body.json);
+require('../lib/mw/body')
+  .aggregate(app)
+  .json(app);
 
-require('../lib/control/session').attach(app);
+require('../lib/control/session')
+  .attach(app);
 
 server.listen(Config.get('session:service:port'),
-              Config.get('session:service:hostname'), function() {
-                console.log('Session service started');
-              });
+  Config.get('session:service:hostname'),
+  function() {
+    console.log('Session service started');
+  });
