@@ -1,46 +1,51 @@
 
-if (!Config) require('../lib/config');
-if (!redis) global.redis = require('../lib/util/redis').connect();
+require('../lib/config');
+var Redis = require('../lib/util/redis');
 
-global.sets = function(k, v) {
-  redis.sets(k, v, function(err, created, state, expire) {
-    console.log(err);
-    console.log(created);
-    console.log(state);
-    console.log(expire);
-  });
-};
+global.redis = {
+  _connection: null,
+  connect: function() {
+    this._connection = Redis.connect();
+  },
 
-global.gets = function(k, v) {
-  redis.gets(k, function(err, data, state, expire) {
-    console.log(err);
-    console.log(data);
-    console.log(state);
-    console.log(expire);
-  });
-};
+  disconnect: function() {
+    this._connection.quit();
+  },
 
-global.cas = function(k, v, state, expire) {
-  redis.cas(k, v, state, expire, function(err, updated, state, expire) {
-    console.log(err);
-    console.log(updated);
-    console.log(state);
-    console.log(expire);
-  });
-};
+  sets: function(k, v) {
+    this._connection.sets(k, v, function(err, created, state, expire) {
+      if (err) return console.log(err);
+      console.log('Updated: ' + !!updated + ', CAS: ' + state + ', Expires: ' + expires);
+    });
+  },
 
-global.expires = function(k, expires) {
-  redis.expires(k, expires, function(err, updated, state, expire) {
-    console.log(err);
-    console.log(updated);
-    console.log(state);
-    console.log(expire);
-  });
-};
+  gets: function(k, v) {
+    this._connection.gets(k, function(err, data, state, expire) {
+      if (err) return console.log(err);
+      console.log('CAS: ' + state + ', Expires: ' + expires + ', Data:');
+      console.log(data);
+    });
+  },
 
-global.dels = function(k) {
-  redis.dels(k, function(err, deleted) {
-    console.log(err);
-    console.log(deleted);
-  });
+  cas: function(k, v, state, expire) {
+    this._connection.cas(k, v, state, expire, function(err, updated, state, expire) {
+      if (err) return console.log(err);
+      console.log('Updated: ' + !!updated + ', CAS: ' + state + ', Expires: ' + expires);
+    });
+  },
+
+  expires: function(k, expires) {
+    this._connection.expires(k, expires, function(err, updated, state, expire) {
+      if (err) return console.log(err);
+      console.log('Updated: ' + !!updated + ', CAS: ' + state + ', Expires: ' + expires);
+    });
+  },
+
+  dels: function(k) {
+    this._connection.dels(k, function(err, deleted) {
+      if (err) return console.log(err);
+      console.log('Deleted: ' + !!deleted);
+    });
+  },
+
 };
