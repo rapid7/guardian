@@ -1,4 +1,4 @@
-require('./lib/config');
+require('./lib/config').complete();
 
 namespace('db', function() {
   desc('db:init', 'Initialize the Guardian SQL schema');
@@ -20,7 +20,7 @@ function dbInit(force) {
   Model.load('group');
 
   Model.sync({
-    force: false,
+    force: !!force,
   }).finally(function() {
     Model.close();
   });
