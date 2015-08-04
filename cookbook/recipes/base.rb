@@ -23,8 +23,8 @@ include_recipe 'apt'
 # include_recipe 'nodejs'
 # include_recipe 'nodejs::npm'
 
-apt_repository 'node_0.10' do
-  uri 'https://deb.nodesource.com/node_0.10'
+apt_repository 'node_0.12' do
+  uri 'https://deb.nodesource.com/node_0.12'
   distribution node['lsb']['codename']
   components %w(main)
   key 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
@@ -33,6 +33,7 @@ end
 package 'build-essential'
 package 'nodejs'
 package 'uuid-dev'
+package 'redis-server'
 
 group node['guardian']['group'] { system true }
 user node['guardian']['user'] do
