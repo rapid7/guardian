@@ -1,0 +1,31 @@
+<% include ../include/head.ejs %>
+<% include ../include/top.ejs %>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="well well-lg">
+          <div class="row">
+            <div class="col-sm-12">
+              <h1>Login</h1>
+              <h4>Select a identity provider to continue</h4>
+              <p>Return to: <%= session.returnTo %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% var providerIds = Object.keys(providers) -%>
+    <div class="row">
+      <% for(ii = 0; ii < 3; ii++) { -%>
+      <div class="col-sm-4">
+        <% for(i = ii; i < providerIds.length; i += 3) { -%>
+        <%   var id = providerIds[i]; 1%>
+        <%   var provider = providers[id]; -%>
+        <a class="btn btn-default btn-huge" href="<%= prefix %><%= provider.login %>"><%= provider.name %></a>
+        <% } -%>
+      </div>
+      <% } -%>
+    </div>
+  </div>
+<% include ../include/scripts.ejs %>
+<% include ../include/bottom.ejs %>
