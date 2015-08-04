@@ -5,44 +5,32 @@ var FS = require('fs');
 var HTTP = require('http');
 var Path = require('path');
 
-require('../lib/config');
-require('../lib/model/store').connect(Config.get('db'));
+require('../lib/config').service('authn').complete();
 
 var app = Express();
 var server = HTTP.createServer(app);
 
-app.engine('ejs', require('ejs').renderFile);
+// app.set('trust proxy', 'localhost');
+app.set('view engine', 'jade');
 app.set('views', Path.resolve(__dirname, '../template'));
 
-require('../lib/control/logger').attach(app);
-require('../lib/control/cookie').attach(app, Config.get('cookie'));
-require('../lib/control/session').attach(app);
-require('../lib/control/authn').attach(app, Config.get('strategy'));
-require('../lib/control/authz').attach(app);
-require('../lib/control/routes').attach(app);
-require('../lib/control/proxy').attach(app, Config.get('proxy'));
-
-// Listen on a TCP port
-if (+(Config.get('service:listen'))) {
-  return server.listen(Config.get('service:listen'), function() {
-    console.log('Listening on TCP port ' + Config.get('service:listen'));
-  });
-}
-
-// Listen on a UNIX socket
-console.log('Opening UNIX socket ' + Config.get('service:listen'));
-
-// Check if directory exists, and is a directory
-var stats = FS.statSync(Path.dirname(Config.get('service:listen')));
-if(!stats.isDirectory()){
-  throw Error('Socket path must be in an existing direcotry!');
-}
-
-// Try to clean up socket file if it already exists
-try {
-  FS.unlinkSync(Config.get('service:listen'));
-} catch(e) {}
-
-server.listen(Config.get('service:listen'), function() {
-  console.log('Listening on UNIX socket ' + Config.get('service:listen'));
+require('../lib/mw/events').attach(app);
+require('../lib/mw/log').attach(app);
+require('../lib/mw/favicon').attach(app, Path.resolve(__dirname, '../asset/favicon.ico'));
+require('../lib/mw/session').attach(app);
+require('../lib/control/authn')
+  .attach(app)
+  .providers(app)
+  .enforce(app);
+require('../lib/control/proxy').attach(app, {
+  protocol: 'https:',
+  hostname: 'devportal.razorbeta.com',
+  port: 443,
 });
+
+server.listen(Config.get('authn:service:port'),
+  Config.get('authn:service:hostname'),
+  function() {
+    console.log('AuthN: Service listening on ' + server.address().address +
+      ':TCP/' + server.address().port);
+  });
