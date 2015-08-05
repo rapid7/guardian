@@ -28,6 +28,8 @@ require('../lib/control/proxy').attach(app, {
   port: 443,
 });
 
+require('../lib/model').sync();
+
 server.listen(Config.get('authn:service:port'),
   Config.get('authn:service:hostname'),
   function() {
