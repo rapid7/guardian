@@ -16,6 +16,12 @@
             <li><a href="/_manage/users"><i class="fa fa-user"></i>&nbsp;Users</a></li>
             <li><a href="/_manage/authorizations"><i class="fa fa-lock"></i>&nbsp;Authorizations</a></li>
           </ul>
+
+          <ul class="nav navbar-nav pull-right">
+            <% if (authenticated) { -%>
+            <li><a href="<%= prefix %>/logout"><i class="fa fa-sign-out"></i>&nbsp;Logout</a></li>
+            <% } -%>
+          </ul>
         </div>
       </div>
     </div>
