@@ -36,6 +36,8 @@
   },
   "homepage": "https://github.com/rapid7/guardian",
   "scripts": {
-    "postinstall": "jake db:init || true"
+    "postinstall": "npm run db:init || true",
+    "db:init": "jake db:init",
+    "db:replace": "jake db:replace"
   }
 }
