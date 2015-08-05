@@ -6,7 +6,7 @@ gem 'berkshelf'
 # gem 'chef_life', :path => '../chef_life' # :github => 'jmanero/chef_life'
 
 gem 'vagrant', :github => 'mitchellh/vagrant',
-               :tag => 'v1.7.2',
+               :tag => 'v1.7.4',
                :group => :development
 
 group :development, :plugins do
