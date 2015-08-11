@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 var Express = require('express');
-var FS = require('fs');
 var HTTP = require('http');
 var Path = require('path');
 
@@ -22,12 +21,8 @@ require('../lib/control/authn')
   .attach(app)
   .providers(app)
   .enforce(app);
-require('../lib/control/proxy').attach(app, {
-  protocol: 'https:',
-  hostname: 'devportal.razorbeta.com',
-  port: 443,
-});
 
+require('../lib/mw/proxy').attach(app, Config.get('router:service'));
 require('../lib/model').sync();
 
 server.listen(Config.get('authn:service:port'),

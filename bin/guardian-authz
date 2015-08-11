@@ -1,1 +1,36 @@
 #!/usr/bin/env node
+
+var Express = require('express');
+var HTTP = require('http');
+var Path = require('path');
+
+require('../lib/config').service('authz').complete();
+
+var app = Express();
+var server = HTTP.createServer(app);
+
+// app.set('trust proxy', 'localhost');
+app.set('view engine', 'jade');
+app.set('views', Path.resolve(__dirname, '../template'));
+
+require('../lib/mw/events').attach(app);
+require('../lib/mw/log').attach(app);
+
+require('../lib/control/authz')
+  .attach(app)
+  .enforce(app);
+
+require('../lib/mw/proxy').attach(app, {
+  protocol: 'https:',
+  hostname: 'devportal.razorbeta.com',
+  port: 443,
+});
+
+require('../lib/model').sync();
+
+server.listen(Config.get('authz:service:port'),
+  Config.get('authz:service:hostname'),
+  function() {
+    console.log('AuthZ: Service listening on ' + server.address().address +
+      ':TCP/' + server.address().port);
+  });

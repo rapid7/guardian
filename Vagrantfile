@@ -1,5 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+require 'json'
 
 Vagrant.configure('2') do |config|
   config.vm.hostname = 'guardian-dev'
@@ -7,9 +8,9 @@ Vagrant.configure('2') do |config|
   config.vm.box_url = 'https://cloud-images.ubuntu.com/vagrant/trusty/'\
     'current/trusty-server-cloudimg-amd64-vagrant-disk1.box'
 
-  # config.vm.provider :virtualbox do |vb|
-    # vb.memory = 2048
-  # end
+  config.vm.provider :virtualbox do |vb|
+    vb.memory = 2048
+  end
 
   (9001..9004).each do |port|
     config.vm.network :forwarded_port, :host => port, :guest => port
@@ -29,23 +30,21 @@ Vagrant.configure('2') do |config|
         :user => 'vagrant',
         :group => 'vagrant',
         :home => '/home/vagrant',
-        # :service => {
-        #   :action => :nothing
-        # },
-        :config => {
-          :proxy => {
-            :frontend => {
-              :port => 8443
-            }
-          }
-        }
+
+        :path => '/home/vagrant/guardian',
+        :conf => '/home/vagrant/guardian/conf',
+        :source => 'local', ## Don't try to fetch source
+        # :source => 'github-master',
+        :enable => true,
+
+        :session => (JSON.parse(IO.read('./conf/_session.json')) rescue {}),
+        :authn => (JSON.parse(IO.read('./conf/_authn.json')) rescue {}),
+        :authz => (JSON.parse(IO.read('./conf/_authz.json')) rescue {})
       }
     }
 
     chef.run_list = [
-      # 'recipe[etcd-v2::node]',
-      'recipe[guardian::default]',
-      # 'recipe[guardian::snakeoil]'
+      'recipe[guardian::default]'
     ]
   end
 end

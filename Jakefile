@@ -15,9 +15,9 @@ namespace('db', function() {
 function dbInit(force) {
   var Model = require('./lib/model');
 
-  Model.load('authorization');
   Model.load('user');
-  Model.load('group');
+  Model.load('policy');
+  Model.load('service');
 
   Model.sync({
     force: !!force,
