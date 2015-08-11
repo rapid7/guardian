@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: guardian
-# Recipe:: default
+# Recipe:: install
 #
 # Copyright (C) 2015, Rapid7, LLC.
 # License:: Apache License, Version 2.0
@@ -17,10 +17,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include_recipe "#{ cookbook_name }::base"
-include_recipe "#{ cookbook_name }::database"
-include_recipe "#{ cookbook_name }::install"
-include_recipe "#{ cookbook_name }::service-session"
-include_recipe "#{ cookbook_name }::service-authn"
-# include_recipe "#{ cookbook_name }::service-authz"
-include_recipe "#{ cookbook_name }::service-router"
+
+## Get teh codez
+valid_sources = %w(local github-master github-tag github-release)
+Chef::Application.fatal!("Valid options for `node['guardian']['source']` "\
+  "are #{ valid_sources.join(', ') }") unless
+  valid_sources.include?(node['guardian']['source'])
+
+include_recipe "#{ cookbook_name }::source-#{ node['guardian']['source'] }"

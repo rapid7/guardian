@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: guardian
-# Recipe:: base
+# Attributes:: source-github-master
 #
 # Copyright (C) 2015, Rapid7, LLC.
 # License:: Apache License, Version 2.0
@@ -17,34 +17,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+package 'git'
 
-include_recipe 'apt'
-include_recipe "#{ cookbook_name }::nodejs"
+##
+# Install the Guardian source from the head of `master`
+##
 
-node.default['guardian']['version'] = cookbook_version
+git 'guardian-source' do
+  repository Guardian::Helpers.github_uri(node['guardian']['repo'])
+  revision 'master'
+  destination node['guardian']['path']
+  depth 1
 
-group node['guardian']['group'] do
-  system true
-end
-
-user node['guardian']['user'] do
-  system true
-  home node['guardian']['home']
+  user node['guardian']['user']
   group node['guardian']['group']
 end
 
-[node['guardian']['home'],
- node['guardian']['conf'],
- node['guardian']['path']].each do |d|
-  next if resources(:directory => d) rescue false
-  directory d do
-    owner node['guardian']['user']
-    group node['guardian']['group']
-    mode '0755'
-  end
-end
-
-template ::File.join(node['guardian']['conf'], 'site.json') do
-  source 'json.erb'
-  variables :content => node['guardian']['site']
+execute 'npm-install' do
+  command "#{ node['nodejs']['npm'] } install"
+  cwd node['guardian']['path']
+  user node['guardian']['user']
+  group node['guardian']['group']
+  environment 'HOME' => node['guardian']['home']
 end

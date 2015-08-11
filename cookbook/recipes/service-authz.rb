@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: guardian
-# Recipe:: default
+# Recipe:: service_authz
 #
 # Copyright (C) 2015, Rapid7, LLC.
 # License:: Apache License, Version 2.0
@@ -18,9 +18,4 @@
 # limitations under the License.
 #
 include_recipe "#{ cookbook_name }::base"
-include_recipe "#{ cookbook_name }::database"
-include_recipe "#{ cookbook_name }::install"
-include_recipe "#{ cookbook_name }::service-session"
-include_recipe "#{ cookbook_name }::service-authn"
-# include_recipe "#{ cookbook_name }::service-authz"
-include_recipe "#{ cookbook_name }::service-router"
+guardian_service 'authz'

@@ -1,0 +1,15 @@
+#
+# Cookbook Name:: guardian
+# Template:: upstart.conf.erb
+#
+author  "Rapid7 LLC <coreservices@rapid7.com>"
+description "<%= @service.name %>"
+
+setuid <%= @service.user %>
+setgid <%= @service.group %>
+
+start on (virtual-filesystems and net-device-up IFACE!=lo)
+stop on shutdown
+
+console log
+exec <%= @service.exec_string %>

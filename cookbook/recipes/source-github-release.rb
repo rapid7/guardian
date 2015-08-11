@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: guardian
-# Recipe:: default
+# Attributes:: source-github-release
 #
 # Copyright (C) 2015, Rapid7, LLC.
 # License:: Apache License, Version 2.0
@@ -17,10 +17,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include_recipe "#{ cookbook_name }::base"
-include_recipe "#{ cookbook_name }::database"
-include_recipe "#{ cookbook_name }::install"
-include_recipe "#{ cookbook_name }::service-session"
-include_recipe "#{ cookbook_name }::service-authn"
-# include_recipe "#{ cookbook_name }::service-authz"
-include_recipe "#{ cookbook_name }::service-router"
+
+##
+# Install Guardian from a released artifact
+##
+
+# remote_file 'guardian-source' do
+#   source node.guardian_artifact_url
+#   path node.guardian_artifact_path
+#   action :create_if_missing
+#   not_if { node['vagrant'] }
+# end
+#
+# libarchive_file 'guardian-source' do
+#   path node.guardian_artifact_path
+#   extract_to ::File.dirname(node['guardian']['path'])
+#   owner node['guardian']['user']
+#   group node['guardian']['group']
+#   notifies :install, 'nodejs_npm[guardian]'
+#   not_if { node['vagrant'] }
+# end

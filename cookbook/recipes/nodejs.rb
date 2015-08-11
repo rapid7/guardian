@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: guardian
-# Recipe:: default
+# Recipe:: nodejs
 #
 # Copyright (C) 2015, Rapid7, LLC.
 # License:: Apache License, Version 2.0
@@ -17,10 +17,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include_recipe "#{ cookbook_name }::base"
-include_recipe "#{ cookbook_name }::database"
-include_recipe "#{ cookbook_name }::install"
-include_recipe "#{ cookbook_name }::service-session"
-include_recipe "#{ cookbook_name }::service-authn"
-# include_recipe "#{ cookbook_name }::service-authz"
-include_recipe "#{ cookbook_name }::service-router"
+
+apt_repository 'node_0.12' do
+  uri 'https://deb.nodesource.com/node_0.12'
+  distribution node['lsb']['codename']
+  components %w(main)
+  key 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
+end
+
+package 'build-essential'
+package 'nodejs'
+package 'uuid-dev'
