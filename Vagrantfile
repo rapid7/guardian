@@ -16,7 +16,7 @@ Vagrant.configure('2') do |config|
     config.vm.network :forwarded_port, :host => port, :guest => port
   end
 
-  config.vm.synced_folder './', '/home/vagrant/guardian'
+  # config.vm.synced_folder './', '/home/vagrant/guardian'
 
   config.omnibus.chef_version = :latest
   config.berkshelf.enabled = true
@@ -27,19 +27,20 @@ Vagrant.configure('2') do |config|
     chef.json = {
       :vagrant => true,
       :guardian => {
-        :user => 'vagrant',
-        :group => 'vagrant',
-        :home => '/home/vagrant',
-
-        :path => '/home/vagrant/guardian',
-        :conf => '/home/vagrant/guardian/conf',
-        :source => 'local', ## Don't try to fetch source
-        # :source => 'github-master',
+        # :user => 'vagrant',
+        # :group => 'vagrant',
+        # :home => '/home/vagrant',
+        #
+        # :path => '/home/vagrant/guardian',
+        # :conf => '/home/vagrant/guardian/conf',
+        # :source => 'local', ## Don't try to fetch source
+        :source => 'github-master',
         :enable => true,
 
         :session => (JSON.parse(IO.read('./conf/_session.json')) rescue {}),
         :authn => (JSON.parse(IO.read('./conf/_authn.json')) rescue {}),
-        :authz => (JSON.parse(IO.read('./conf/_authz.json')) rescue {})
+        :authz => (JSON.parse(IO.read('./conf/_authz.json')) rescue {}),
+        :router => (JSON.parse(IO.read('./conf/_router.json')) rescue {})
       }
     }
 
