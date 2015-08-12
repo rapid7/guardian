@@ -21,12 +21,27 @@ actions [:create, :reload]
 default_action :create
 
 attribute :name, :kind_of => String, :name_attribute => true
-attribute :user, :kind_of => String, :default => node['guardian']['user']
-attribute :group, :kind_of => String, :default => node['guardian']['group']
-attribute :path, :kind_of => String, :default => node['guardian']['path']
-attribute :confdir, :kind_of => String, :default => node['guardian']['conf']
-attribute :enabled, :kind_of => [TrueClass, FalseClass], :default => node['guardian']['enable']
 attribute :cookbook, :kind_of => [String, Symbol], :default => 'guardian'
+
+def user(arg = nil)
+  set_or_return(:user, arg, :kind_of => String, :default => node['guardian']['user'])
+end
+
+def group(arg = nil)
+  set_or_return(:group, arg, :kind_of => String, :default => node['guardian']['group'])
+end
+
+def path(arg = nil)
+  set_or_return(:path, arg, :kind_of => String, :default => node['guardian']['path'])
+end
+
+def confdir(arg = nil)
+  set_or_return(:confdir, arg, :kind_of => String, :default => node['guardian']['conf'])
+end
+
+def enabled(arg = nil)
+  set_or_return(:enabled, arg, :kind_of => [TrueClass, FalseClass], :default => node['guardian']['enable'])
+end
 
 def exec_string
   ::File.join(path, 'bin', "guardian-#{ name }") + ' -c ' + confdir
