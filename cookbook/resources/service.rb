@@ -17,7 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-actions [:create]
+actions [:create, :reload]
 default_action :create
 
 attribute :name, :kind_of => String, :name_attribute => true

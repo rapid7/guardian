@@ -19,6 +19,15 @@
 #
 use_inline_resources
 
+action :reload do
+  service "guardian-#{ new_resource.name }" do
+    supports :restart => true, :status => true
+    action :restart
+    provider Chef::Provider::Service::Upstart
+    only_if { new_resource.enabled }
+  end
+end
+
 action :create do
   template "/etc/init/guardian-#{ new_resource.name }.conf" do
     source 'upstart.conf.erb'
@@ -34,7 +43,9 @@ action :create do
   template ::File.join(new_resource.confdir, "#{ new_resource.name }.json") do
     source 'json.erb'
     cookbook new_resource.cookbook
-    variables :content => node['guardian'][new_resource.name]
+    variables :content => {
+      new_resource.name => node['guardian'][new_resource.name]
+    }
   end
 
   service "guardian-#{ new_resource.name }" do
