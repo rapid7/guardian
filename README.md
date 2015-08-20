@@ -1,5 +1,8 @@
 Guardian
 ========
+[![Build Status](https://travis-ci.org/rapid7/guardian.svg)](https://travis-ci.org/rapid7/guardian)
+[![License](https://img.shields.io/badge/license-Apache_2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+
 A lightweight authentication proxy for HTTP services. Integrate
 
 ## Suported Protocols/Providers
