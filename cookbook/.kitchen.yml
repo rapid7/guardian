@@ -1,10 +1,13 @@
 ---
 driver:
   name: vagrant
-  network:
-    forwarded_port:
-      - guest: 443
-        host: 9443
+  driver:
+    network:
+      - [forwarded_port, {guest: 443, host: 9443}]
+      - [forwarded_port, {guest: 9001, host: 9001}]
+      - [forwarded_port, {guest: 9002, host: 9002}]
+      - [forwarded_port, {guest: 9003, host: 9003}]
+      - [forwarded_port, {guest: 9004, host: 9004}]
   synced_folders:
     - ['../', '/mnt/source']
 
@@ -20,6 +23,6 @@ suites:
       - recipe[guardian::default]
     attributes:
       guardian:
-        user: vagrant
-        group: vagrant
-        version: development
+        user: guardian
+        group: guardian
+        version: master
