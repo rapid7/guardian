@@ -1,0 +1,18 @@
+sudo: required
+services:
+  - docker
+language: nodejs
+notifications:
+  flowdock:
+    secure: o0r+ME2a7/u+VZCLRTN7V7tvYh4gm7Bir6yYOiqk80iYsJAvzCUgHqugn/moIC7282c1r76kB2g2qYw6vEKhHSPsy/G4TcPLSTQcd0YbYPdP2R4Na9mzeWvXq6609dgp22elgVwHoisZZgJx4nXLY0U4Hvde2CzxBacl0JrpWrs=
+env:
+  global:
+    - KITCHEN_LOCAL_YAML=.kitchen.travis.yml
+before_install:
+  - curl -s https://packagecloud.io/install/repositories/chef/stable/script.deb.sh | sudo bash
+install:
+  - sudo apt-get install chefdk
+  - /opt/chefdk/bin/chef gem install kitchen-docker-api
+script:
+  - /opt/chefdk/bin/chef exec foodcritic cookbook
+  - cd cookbook && /opt/chefdk/bin/chef exec kitchen test -d never
