@@ -31,3 +31,6 @@ npm-debug.log
 /attic
 metadata.json
 /vendor
+
+#Rubymine
+.idea
