@@ -21,7 +21,7 @@
 ##
 # XXX: This configuration is currently for testing purposes only!
 ##
-package 'redis-server'
+package 'redis-server' unless node.platform_version == "12.04"
 
 mysql_service 'guardian' do
   port '3306'

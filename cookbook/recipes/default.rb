@@ -24,3 +24,7 @@ include_recipe "#{ cookbook_name }::service-session"
 include_recipe "#{ cookbook_name }::service-authn"
 # include_recipe "#{ cookbook_name }::service-authz"
 include_recipe "#{ cookbook_name }::service-router"
+if node.platform_version == "12.04"
+  include_recipe "redisio::default"
+  include_recipe "redisio::enable"
+end
