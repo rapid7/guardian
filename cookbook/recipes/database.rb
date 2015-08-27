@@ -17,11 +17,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+require 'chef/version_constraint'
 
 ##
 # XXX: This configuration is currently for testing purposes only!
 ##
-package 'redis-server'
+
+include_recipe 'redisio::install'
+
+unless node['redisio']['package_install']
+  include_recipe 'redisio::configure'
+  include_recipe 'redisio::enable'
+end
 
 mysql_service 'guardian' do
   port '3306'

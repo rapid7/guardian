@@ -18,4 +18,6 @@
 # limitations under the License.
 #
 include_recipe "#{ cookbook_name }::base"
+include_recipe "#{ cookbook_name }::install"
+
 guardian_service 'router'

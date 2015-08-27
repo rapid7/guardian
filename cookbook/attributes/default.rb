@@ -19,6 +19,12 @@
 #
 default['nodejs']['npm'] = '/usr/bin/npm'
 
+include_attribute 'redisio'
+default['redisio']['version'] = '2.8.4'
+default['redisio']['package_name'] = 'redis-server' ## Fixed in master but not released
+default['redisio']['package_install'] =
+  Chef::VersionConstraint.new('>= 14.04').include?(node['platform_version'])
+
 default['guardian']['user'] = 'guardian'
 default['guardian']['group'] = 'guardian'
 default['guardian']['home'] = '/etc/guardian'

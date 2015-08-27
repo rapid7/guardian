@@ -11,7 +11,8 @@ depends 'apt'
 depends 'database', '~> 4.0'
 depends 'mysql', '~> 6.0'
 depends 'mysql2_chef_gem', '~> 1.0'
+depends 'redisio', '~> 2.3'
 
 # depends 'libarchive', '>= 0.5.0'
 
-supports 'ubuntu'
+supports 'ubuntu', '>= 12.04'
