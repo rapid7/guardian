@@ -11,5 +11,8 @@ setgid <%= @service.group %>
 start on (virtual-filesystems and net-device-up IFACE!=lo)
 stop on shutdown
 
+respawn
+respawn limit 5 5
+
 console log
 exec <%= @service.exec_string %>
