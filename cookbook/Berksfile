@@ -1,3 +1,7 @@
-source 'https://supermarket.chef.io'
+require 'builderator/util/berkshim'
+extend Builderator::Util::Berkshim
 
-metadata
+source 'http://razorci.osdc.lax.rapid7.com:9080'
+source 'https://supermarket.getchef.com'
+
+shims
