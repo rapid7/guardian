@@ -24,8 +24,8 @@ Vagrant.configure('2') do |config|
     chef.log_level = :info
 
     chef.cookbooks_path = './vendor/chef/cookbooks'
-    chef.data_bags_path = './vendor/chef/data_bags'
-    chef.environments_path = './vendor/chef/environments'
+    # chef.data_bags_path = './vendor/chef/data_bags'
+    # chef.environments_path = './vendor/chef/environments'
 
     chef.json = {
       :vagrant => true,
