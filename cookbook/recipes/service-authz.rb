@@ -20,4 +20,7 @@
 include_recipe "#{ cookbook_name }::base"
 include_recipe "#{ cookbook_name }::install"
 
-guardian_service 'authz'
+guardian_service 'authz' do
+  subscribes :reload, 'git[guardian-source]', :delayed
+  subscribes :reload, 'ruby_block[guardian-source]', :delayed
+end
