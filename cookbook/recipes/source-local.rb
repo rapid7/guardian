@@ -29,9 +29,11 @@ ruby_block 'guardian-source' do
     Chef::Application.fatal!('Unable to find Guardian source at ' +
       node['guardian']['path']) unless ::File.exist?(::File.join(node['guardian']['path'], 'package.json'))
   end
+  notifies :run, 'execute[guardian-npm-install]', :immediately
 end
 
-execute 'npm-install' do
+execute 'guardian-npm-install' do
+  action :nothing # will be notified when source is changed
   command "#{ node['nodejs']['npm'] } install"
   cwd node['guardian']['path']
   user node['guardian']['user']
