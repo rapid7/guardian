@@ -21,7 +21,7 @@
 include_recipe 'apt'
 include_recipe "#{ cookbook_name }::nodejs"
 
-node.default['guardian']['version'] = cookbook_version
+node.default_unless['guardian']['version'] = cookbook_version
 
 group node['guardian']['group'] do
   system true
