@@ -21,26 +21,26 @@ chef.
 ### Quick start
 
 - Create a SAML 2.0 application in your SAML provider:
-  - Sign on URL: https://\<myhost\>/_authn/provider/\<myapp\>/callback
-  - Audience URI: https://\<myhost\>
+  - **Sign on URL**: https://\<myhost\>/_authn/provider/\<myapp\>/callback
+  - **Audience URI**: https://\<myhost\>
 - Configure the Guardian chef cookbook attributes (see
   [examples](https://github.com/rapid7/guardian/blob/master/cookbook/README.md#usage))
-  - guardian.router.downstream (URL of your application)
-    - protocol: https:
-    - hostname: \<myhost\>
-    - port: 443
-  - guardian.router.routes (protected routes for your application):
-    - /path1.hostname: localhost
-    - /path1.port: 8080
-    - /path2.hostname: someotherlocalapp.local
-    - /path2.port: 80
-  - Configure guardian.authn.providers with your SAML provider information
-    - name: \<myapp\>
-    - strategy: SAML
-    - certificate: your SAML provider's certificate
-    - params.entryPoint: the single sign-on URL from your SAML provider
-    - params.issuer: the issuer URL from your SAML provider
-    - params.identifierFormat: urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified
+  - **guardian.router.downstream** (URL of your application)
+    - **protocol**: https:
+    - **hostname**: \<myhost\>
+    - **port**: 443
+  - **guardian.router.routes** (protected routes for your application):
+    - **/path1.hostname**: localhost
+    - **/path1.port**: 8080
+    - **/path2.hostname**: someotherlocalapp.local
+    - **/path2.port**: 80
+  - **guardian.authn.providers** (SAML provider information)
+    - **name**: \<myapp\>
+    - **strategy**: SAML
+    - **certificate**: your SAML provider's certificate
+    - **params.entryPoint**: the single sign-on URL from your SAML provider
+    - **params.issuer**: the issuer URL from your SAML provider
+    - **params.identifierFormat**: urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified
 - Run the chef cookbook (recipe: guardian::default)
 
 ### Identity Provider
