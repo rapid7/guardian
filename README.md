@@ -138,7 +138,7 @@ Configures the upstream web application that Guardian is proxying.
 ##### Downstream
 Guardian rewrites redirects from the upstream application to use the Guardian
 URL (similar to Nginx's [proxy_redirect](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_redirect)
-directive.  The downstream configuration section contains the browser visible URL for
+directive).  The downstream configuration section contains the browser visible URL for
 your application.
 
 Configuration parameters are defined in NodeJS's
