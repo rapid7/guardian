@@ -21,13 +21,13 @@ chef.
 ### Quick start
 
 - Create a SAML 2.0 application in your SAML provider:
-  - Sign on URL: https://<myhost>/_authn/provider/<myapp>/callback
-  - Audience URI: https://<myhost>
+  - Sign on URL: https://\<myhost\>/_authn/provider/\<myapp\>/callback
+  - Audience URI: https://\<myhost\>
 - Configure the Guardian chef cookbook attributes (see
   [examples](https://github.com/rapid7/guardian/blob/master/cookbook/README.md#usage))
   - guardian.router.downstream (URL of your application)
     - protocol: https:
-    - hostname: <myhost>
+    - hostname: \<myhost\>
     - port: 443
   - guardian.router.routes (protected routes for your application):
     - /path1.hostname: localhost
@@ -35,7 +35,7 @@ chef.
     - /path2.hostname: someotherlocalapp.local
     - /path2.port: 80
   - Configure guardian.authn.providers with your SAML provider information
-    - name: <myapp>
+    - name: \<myapp\>
     - strategy: SAML
     - certificate: your SAML provider's certificate
     - params.entryPoint: the single sign-on URL from your SAML provider
@@ -54,12 +54,14 @@ In your SAML provider, create a new SAML 2.0 application.  Provide the following
 about your application (NOTE: your provider may have different names for these):
 
 * **Single sign on URL / SAML Assertion Customer Service (ACS) URL**:   The Guardian callback URL.
-  Append `/_authn/provider/<myapp>/callback` to your application's URL.  In this URL, `<myapp>`
+  Append `/_authn/provider/\<myapp\>/callback` to your application's URL.  In this URL, `\<myapp\>`
   is a custom name for your application that you'll refer to when configuring Guardian.  For
   example:
+  
   ```
   https://foo.example.com/_authn/provider/examplepp/callback
   ```
+  
   The SAML assertion is sent to this url with a HTTP POST.
 * **Audience URI / SP Entity ID**: The URL of your application.
 
