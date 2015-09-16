@@ -46,6 +46,11 @@ action :create do
     variables :content => {
       new_resource.name => node['guardian'][new_resource.name]
     }
+
+    ## Restart if the service is enabled
+    notifies :restart,
+             :service => "guardian-#{ new_resource.name }" if
+               new_resource.enabled
   end
 
   service "guardian-#{ new_resource.name }" do

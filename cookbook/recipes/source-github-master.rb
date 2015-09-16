@@ -31,9 +31,12 @@ git 'guardian-source' do
 
   user node['guardian']['user']
   group node['guardian']['group']
+
+  notifies :run, 'execute[guardian-npm-install]', :immediately
 end
 
-execute 'npm-install' do
+execute 'guardian-npm-install' do
+  action :nothing # will be notified when source is changed
   command "#{ node['nodejs']['npm'] } install"
   cwd node['guardian']['path']
   user node['guardian']['user']
