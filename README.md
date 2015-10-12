@@ -23,6 +23,7 @@ chef.
 - Create a SAML 2.0 application in your SAML provider:
   - **Sign on URL**: https://\<myhost\>/_authn/provider/\<myapp\>/callback
   - **Audience URI**: https://\<myhost\>
+  - **Request compression**: Compressed
 - Configure the Guardian chef cookbook attributes (see
   [examples](https://github.com/rapid7/guardian/blob/master/cookbook/README.md#usage))
   - **guardian.router.downstream** (URL of your application)
@@ -64,6 +65,7 @@ about your application (NOTE: your provider may have different names for these):
   
   The SAML assertion is sent to this url with a HTTP POST.
 * **Audience URI / SP Entity ID**: The URL of your application.
+* **Request compression**: Compressed
 
 Gather the following information from your SAML provider:
 
