@@ -108,6 +108,8 @@ SAML providers should contain the following parameters:
 * **name**: A unique name for the provider
 * **stategy**: SAML
 * **certificate**: A file containing the identity providers X.509 certificate
+* **defaultRoute**: The URL to redirect to after authentication if no return path
+  is set (defaults to '/')
 * **params.issuer**: The Entity ID / Issuer from the identity provider
 * **params.identifierFormat**:  The name ID format used by the identity provider.
   This is usually `urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified`.
