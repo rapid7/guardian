@@ -26,10 +26,10 @@ default['redisio']['package_install'] =
   Chef::VersionConstraint.new('>= 14.04').include?(node['platform_version'])
 
 # Set to true if redis-server should be installed
-default['redis']['local'] = true
+default['guardian']['redis']['local'] = true
 
-# Set to true if mysql should be installed
-default['database']['local'] = true
+# Set to true if mysql-server should be installed
+default['guardian']['database']['local'] = true
 
 default['guardian']['user'] = 'guardian'
 default['guardian']['group'] = 'guardian'
