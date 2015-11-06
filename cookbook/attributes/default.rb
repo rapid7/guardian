@@ -42,15 +42,6 @@ default['guardian']['enable'] = true
 
 default['guardian']['repo'] = 'rapid7/guardian'
 
-default['guardian']['database']['user'] = 'guardian'
-default['guardian']['database']['password'] = 'guardian'
-default['guardian']['database']['db_name'] = 'guardian'
-
-default['database']['host'] = '127.0.0.1'
-default['database']['port'] = 3306
-default['database']['user'] = 'root'
-default['database']['password'] = 'change me'
-
 ## Configuration
 default['guardian']['site'] = Mash.new # -> Global configurations
 
