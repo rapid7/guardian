@@ -23,40 +23,44 @@ require 'chef/version_constraint'
 # XXX: This configuration is currently for testing purposes only!
 ##
 
-include_recipe 'redisio::install'
+if node['redis']['local']
+  include_recipe 'redisio::install'
 
-unless node['redisio']['package_install']
-  include_recipe 'redisio::configure'
-  include_recipe 'redisio::enable'
+  unless node['redisio']['package_install']
+    include_recipe 'redisio::configure'
+    include_recipe 'redisio::enable'
+  end
 end
 
-mysql_service 'guardian' do
-  port '3306'
-  version '5.5'
-  initial_root_password 'change me'
-  action [:create, :start]
+if node['database']['local']
+  mysql_service 'guardian' do
+    port node['database']['port']
+    version '5.5'
+    initial_root_password node['database']['password']
+    action [:create, :start]
+  end
 end
 
 mysql2_chef_gem 'default' do
   action :install
 end
 
-mysql_database 'guardian' do
+mysql_database node['guardian']['database']['db_name'] do
   connection(
-    :host     => '127.0.0.1',
-    :username => 'root',
-    :password => 'change me'
+    :host     => node['database']['host'],
+    :username => node['database']['user'],
+    :password => node['database']['password']
   )
   action :create
 end
 
-mysql_database_user 'guardian' do
+mysql_database_user node['guardian']['database']['user'] do
   connection(
-    :host     => '127.0.0.1',
-    :username => 'root',
-    :password => 'change me'
+    :host     => node['database']['host'],
+    :username => node['database']['user'],
+    :password => node['database']['password']
   )
-  password 'guardian'
-  database_name 'guardian'
+  password node['guardian']['database']['password']
+  database_name node['guardian']['database']['db_name']
   action [:create, :grant]
 end

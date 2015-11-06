@@ -25,6 +25,12 @@ default['redisio']['package_name'] = 'redis-server' ## Fixed in master but not r
 default['redisio']['package_install'] =
   Chef::VersionConstraint.new('>= 14.04').include?(node['platform_version'])
 
+# Set to true if redis-server should be installed
+default['redis']['local'] = true
+
+# Set to true if mysql should be installed
+default['database']['local'] = true
+
 default['guardian']['user'] = 'guardian'
 default['guardian']['group'] = 'guardian'
 default['guardian']['home'] = '/etc/guardian'
@@ -36,10 +42,19 @@ default['guardian']['enable'] = true
 
 default['guardian']['repo'] = 'rapid7/guardian'
 
+default['guardian']['database']['user'] = 'guardian'
+default['guardian']['database']['password'] = 'guardian'
+default['guardian']['database']['db_name'] = 'guardian'
+
+default['database']['host'] = '127.0.0.1'
+default['database']['port'] = 3306
+default['database']['user'] = 'root'
+default['database']['password'] = 'change me'
+
 ## Configuration
 default['guardian']['site'] = Mash.new # -> Global configurations
 
-default['guardian']['session'] = Mash.new  #-> Service-specific configurations
+default['guardian']['session'] = Mash.new # -> Service-specific configurations
 default['guardian']['authn'] = Mash.new
 default['guardian']['authz'] = Mash.new
 default['guardian']['router'] = Mash.new
