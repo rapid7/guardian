@@ -23,44 +23,35 @@ require 'chef/version_constraint'
 # XXX: This configuration is currently for testing purposes only!
 ##
 
-if node['redis']['local']
-  include_recipe 'redisio::install'
-
-  unless node['redisio']['package_install']
-    include_recipe 'redisio::configure'
-    include_recipe 'redisio::enable'
-  end
-end
-
-if node['database']['local']
-  mysql_service 'guardian' do
-    port node['database']['port']
-    version '5.5'
-    initial_root_password node['database']['password']
-    action [:create, :start]
-  end
+mysql_service 'guardian' do
+  port node['guardian']['database']['port']
+  version '5.5'
+  initial_root_password node['guardian']['database']['password']
+  action [:create, :start]
 end
 
 mysql2_chef_gem 'default' do
   action :install
 end
 
-mysql_database node['guardian']['database']['db_name'] do
+mysql_database node['guardian']['database']['guardian_db_name'] do
   connection(
-    :host     => node['database']['host'],
-    :username => node['database']['user'],
-    :password => node['database']['password']
+    :host     => node['guardian']['database']['host'],
+    :port     => node['guardian']['database']['port'],
+    :username => node['guardian']['database']['user'],
+    :password => node['guardian']['database']['password']
   )
   action :create
 end
 
-mysql_database_user node['guardian']['database']['user'] do
+mysql_database_user node['guardian']['database']['guardian_user'] do
   connection(
-    :host     => node['database']['host'],
-    :username => node['database']['user'],
-    :password => node['database']['password']
+    :host     => node['guardian']['database']['host'],
+    :port     => node['guardian']['database']['port'],
+    :username => node['guardian']['database']['user'],
+    :password => node['guardian']['database']['password']
   )
-  password node['guardian']['database']['password']
-  database_name node['guardian']['database']['db_name']
+  password node['guardian']['database']['guardian_password']
+  database_name node['guardian']['database']['guardian_db_name']
   action [:create, :grant]
 end
