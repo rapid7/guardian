@@ -25,5 +25,3 @@ include_recipe "#{ cookbook_name }::service-session"
 include_recipe "#{ cookbook_name }::service-authn"
 include_recipe "#{ cookbook_name }::service-router"
 # include_recipe "#{ cookbook_name }::service-authz"
-
-Chef::Log.info("CHEF LOGGING: #{node.debug_value('guardian').to_s}")
