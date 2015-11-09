@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: guardian
-# Recipe:: default
+# Recipe:: logging
 #
 # Copyright (C) 2015, Rapid7, LLC.
 # License:: Apache License, Version 2.0
@@ -17,11 +17,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include_recipe "#{ cookbook_name }::base"
-include_recipe "#{ cookbook_name }::database"
-include_recipe "#{ cookbook_name }::install"
-include_recipe "#{ cookbook_name }::service-session"
-include_recipe "#{ cookbook_name }::service-authn"
-include_recipe "#{ cookbook_name }::service-router"
-include_recipe "#{ cookbook_name }::logging"
-# include_recipe "#{ cookbook_name }::service-authz"
+
+logrotate_app 'guardian' do
+  cookbook 'logrotate'
+  path node['guardian']['log']
+  enable true
+  frequency 'daily'
+  options %w(missingok notifempty compress)
+  rotate 30
+  create '644 root adm'
+end

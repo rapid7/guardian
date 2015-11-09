@@ -17,6 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
 default['nodejs']['npm'] = '/usr/bin/npm'
 
 include_attribute 'redisio'
@@ -31,7 +32,7 @@ default['guardian']['home'] = '/etc/guardian'
 
 default['guardian']['conf'] = '/etc/guardian'
 default['guardian']['path'] = '/srv/guardian'
-default['guardian']['logs'] = '/var/log/guardian'
+default['guardian']['log'] = '/var/log/guardian/guardian.log'
 default['guardian']['source'] = 'github-tag'
 default['guardian']['enable'] = true
 

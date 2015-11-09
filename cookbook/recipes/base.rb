@@ -36,7 +36,7 @@ end
 [node['guardian']['home'],
  node['guardian']['conf'],
  node['guardian']['path'],
- node['guardian']['logs']].each do |d|
+ File.dirname(node['guardian']['log'])].each do |d|
   next if resources(:directory => d) rescue false
   directory d do
     owner node['guardian']['user']

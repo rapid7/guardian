@@ -12,6 +12,7 @@ depends 'database', '~> 4.0'
 depends 'mysql', '~> 6.0'
 depends 'mysql2_chef_gem', '~> 1.0'
 depends 'redisio', '~> 2.3'
+depends 'logrotate', '~> 1.9.2'
 
 # depends 'libarchive', '>= 0.5.0'
 
