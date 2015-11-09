@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: guardian
-# Recipe:: default
+# Attributes:: database
 #
 # Copyright (C) 2015, Rapid7, LLC.
 # License:: Apache License, Version 2.0
@@ -17,11 +17,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include_recipe "#{ cookbook_name }::base"
-include_recipe "#{ cookbook_name }::redis" if node['guardian']['redis']['local']
-include_recipe "#{ cookbook_name }::database" if node['guardian']['database']['local']
-include_recipe "#{ cookbook_name }::install"
-include_recipe "#{ cookbook_name }::service-session"
-include_recipe "#{ cookbook_name }::service-authn"
-include_recipe "#{ cookbook_name }::service-router"
-# include_recipe "#{ cookbook_name }::service-authz"
+
+# Default connection info if using local db installation
+default['guardian']['database']['host'] = '127.0.0.1'
+default['guardian']['database']['port'] = 3306
+default['guardian']['database']['user'] = 'root'
+default['guardian']['database']['password'] = 'change me'
+
+# Default database and credentials for Guardian user
+default['guardian']['database']['guardian_user'] = 'guardian'
+default['guardian']['database']['guardian_password'] = 'guardian'
+default['guardian']['database']['guardian_db_name'] = 'guardian'

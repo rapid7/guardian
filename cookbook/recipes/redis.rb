@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: guardian
-# Recipe:: default
+# Recipe:: redis
 #
 # Copyright (C) 2015, Rapid7, LLC.
 # License:: Apache License, Version 2.0
@@ -17,11 +17,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include_recipe "#{ cookbook_name }::base"
-include_recipe "#{ cookbook_name }::redis" if node['guardian']['redis']['local']
-include_recipe "#{ cookbook_name }::database" if node['guardian']['database']['local']
-include_recipe "#{ cookbook_name }::install"
-include_recipe "#{ cookbook_name }::service-session"
-include_recipe "#{ cookbook_name }::service-authn"
-include_recipe "#{ cookbook_name }::service-router"
-# include_recipe "#{ cookbook_name }::service-authz"
+include_recipe 'redisio::install'
+
+unless node['redisio']['package_install']
+  include_recipe 'redisio::configure'
+  include_recipe 'redisio::enable'
+end
