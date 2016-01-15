@@ -23,7 +23,7 @@ logrotate_app 'guardian' do
   path node['guardian']['log']
   enable true
   frequency 'daily'
-  options %w(missingok notifempty compress)
+  options %w(missingok notifempty compress copytruncate)
   rotate 30
   create '644 root adm'
 end
