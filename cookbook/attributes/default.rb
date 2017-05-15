@@ -18,7 +18,7 @@
 # limitations under the License.
 #
 
-default['nodejs']['npm'] = '/usr/bin/npm'
+default['guardian']['nodejs']['npm'] = '/usr/bin/npm'
 
 include_attribute 'redisio'
 default['redisio']['version'] = '2.8.4'
