@@ -37,7 +37,7 @@ end
 
 execute 'guardian-npm-install' do
   action :nothing # will be notified when source is changed
-  command "#{ node['nodejs']['npm'] } install"
+  command "#{ node['guardian']['nodejs']['npm'] } install"
   cwd node['guardian']['path']
   user node['guardian']['user']
   group node['guardian']['group']
