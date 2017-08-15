@@ -8,6 +8,9 @@ require('../lib/config').service('router').complete();
 var app = Express();
 var server = HTTP.createServer(app);
 
+// Remove the x-powered-by header
+app.disable('x-powered-by');
+
 require('../lib/mw/events').attach(app);
 require('../lib/mw/log').attach(app);
 require('../lib/control/router').attach(app);
