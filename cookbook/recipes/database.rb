@@ -25,12 +25,13 @@ require 'chef/version_constraint'
 
 mysql_service 'guardian' do
   port node['guardian']['database']['port']
-  version '5.5'
+  version '5.7'
   initial_root_password node['guardian']['database']['password']
   action [:create, :start]
 end
 
 mysql2_chef_gem 'default' do
+  package_version '5.7'
   action :install
 end
 

@@ -20,11 +20,13 @@
 
 apt_repository 'node_0.12' do
   uri 'https://deb.nodesource.com/node_0.12'
-  distribution node['lsb']['codename']
+  distribution 'xenial' #node['lsb']['codename']
   components %w(main)
   key 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
 end
 
 package 'build-essential'
-package 'nodejs'
+package 'nodejs' do
+  version '0.12.18-1nodesource1~xenial1'
+end
 package 'uuid-dev'

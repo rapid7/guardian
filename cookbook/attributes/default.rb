@@ -23,8 +23,7 @@ default['guardian']['nodejs']['npm'] = '/usr/bin/npm'
 include_attribute 'redisio'
 default['redisio']['version'] = '2.8.4'
 default['redisio']['package_name'] = 'redis-server' ## Fixed in master but not released
-default['redisio']['package_install'] =
-  Chef::VersionConstraint.new('>= 14.04').include?(node['platform_version'])
+default['redisio']['package_install'] = Chef::VersionConstraint.new('>= 14.04').include?(node['platform_version'])
 
 # Set to true if redis-server should be installed
 default['guardian']['redis']['local'] = true
@@ -43,6 +42,7 @@ default['guardian']['source'] = 'github-tag'
 default['guardian']['enable'] = true
 
 default['guardian']['repo'] = 'rapid7/guardian'
+default['guardian']['version'] = '0.3.23'
 
 ## Configuration
 default['guardian']['site'] = Mash.new # -> Global configurations

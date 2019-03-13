@@ -2,24 +2,21 @@
 driver:
   name: vagrant
   network:
-    forwarded_port:
-      - guest: 443
-        host: 9443
-  synced_folders:
-    - ['../', '/mnt/source']
+    - ["forwarded_port", {guest: 80, host: 9080}]
+    - ["forwarded_port", {guest: 443, host: 9443}]
+    - ["forwarded_port", {guest: 8080, host: 9081}]
 
 provisioner:
   name: chef_solo
 
 platforms:
-  - name: ubuntu-14.04
+  - name: ubuntu-18.04
 
 suites:
   - name: default
     run_list:
       - recipe[guardian::default]
     attributes:
-      guardian:
-        user: vagrant
-        group: vagrant
-        version: development
+      test_kitchen: true
+
+

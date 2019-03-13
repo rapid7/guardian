@@ -23,14 +23,13 @@ action :reload do
   service "guardian-#{ new_resource.name }" do
     supports :restart => true, :status => true
     action :restart
-    provider Chef::Provider::Service::Upstart
+    provider Chef::Provider::Service::Systemd
     only_if { new_resource.enabled }
   end
 end
 
 action :create do
-  template "/etc/init/guardian-#{ new_resource.name }.conf" do
-    source 'upstart.conf.erb'
+  template "/etc/systemd/system/guardian-#{ new_resource.name }.service" do
     cookbook new_resource.cookbook
     variables :service => new_resource
 
@@ -56,6 +55,6 @@ action :create do
   service "guardian-#{ new_resource.name }" do
     supports :restart => true, :status => true
     action new_resource.service_actions
-    provider Chef::Provider::Service::Upstart
+    provider Chef::Provider::Service::Systemd
   end
 end

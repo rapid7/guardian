@@ -7,7 +7,7 @@
   "dependencies": {
     "async": "1.4.x",
     "cookie": "0.1.x",
-    "ejs": "2.3.x",
+    "ejs": "2.5.x",
     "express": "4.x",
     "hiredis": "0.x",
     "jake": "8.x",
@@ -19,7 +19,7 @@
     "passport-saml": "0.10.x",
     "qs": "2.4.x",
     "redis": "0.12.x",
-    "sequelize": "3.5.x",
+    "sequelize": "3.32.x",
     "serve-static": "1.9.x",
     "winston": "^2.1.0",
     "winston-redis": "^1.0.0"
