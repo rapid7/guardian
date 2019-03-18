@@ -14,7 +14,7 @@ depends 'mysql2_chef_gem', '~> 2.0'
 depends 'mysql', '>= 8.2.0'
 depends 'redisio', '= 2.3.0'
 depends 'logrotate', '~> 1.9.2'
-depends 'nodejs', '~> 6.0.0'
+
 # depends 'libarchive', '>= 0.5.0'
 
 supports 'ubuntu', '>= 12.04'
