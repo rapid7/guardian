@@ -39,10 +39,9 @@ default['guardian']['conf'] = '/etc/guardian'
 default['guardian']['path'] = '/srv/guardian'
 default['guardian']['log'] = '/var/log/guardian/guardian.log'
 default['guardian']['source'] = 'github-tag'
-default['guardian']['enable'] = true
+#default['guardian']['enable'] = true
 
 default['guardian']['repo'] = 'rapid7/guardian'
-default['guardian']['version'] = '0.3.23'
 
 ## Configuration
 default['guardian']['site'] = Mash.new # -> Global configurations
