@@ -17,4 +17,4 @@ depends 'logrotate', '~> 1.9.2'
 
 # depends 'libarchive', '>= 0.5.0'
 
-supports 'ubuntu', '>= 12.04'
+supports 'ubuntu', '>= 16.04'
