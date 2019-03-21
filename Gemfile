@@ -6,6 +6,7 @@ gem 'builderator'
 gem 'test-kitchen'
 gem 'kitchen-vagrant'
 gem 'berkshelf'
+gem 'thor-scmversion'
 
 group :development, :plugins do
   gem 'vagrant-omnibus'

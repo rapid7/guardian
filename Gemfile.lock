@@ -233,6 +233,9 @@ GEM
       safe_yaml (~> 1.0)
       thor (~> 0.18)
     thor (0.19.4)
+    thor-scmversion (1.7.0)
+      mixlib-shellout
+      thor
     timers (4.0.4)
       hitimes
     uuidtools (2.1.5)
@@ -250,6 +253,7 @@ DEPENDENCIES
   builderator
   kitchen-vagrant
   test-kitchen
+  thor-scmversion
   vagrant-omnibus
 
 BUNDLED WITH
