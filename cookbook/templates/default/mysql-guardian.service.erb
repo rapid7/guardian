@@ -1,0 +1,16 @@
+#
+# Cookbook Name:: guardian
+# Template:: mysql-guardian.service.erb
+#
+[Unit]
+Description=<%= @service.name %>
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=<%= @service.user %>
+Group=<%= @service.group %>
+Restart=on-failure
+RestartSec=5s
+ExecStart=<%= @service.exec_string %>
+

@@ -5,7 +5,7 @@ Installs and configures Guardian services.
 
 ## Supported Platforms
 
-- Ubuntu 14.04
+- Ubuntu 16.04, 18.04
 
 ## Usage
 
