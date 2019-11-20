@@ -25,3 +25,12 @@ module Guardian
     end
   end
 end
+
+module MysqlCookbook
+  class MysqlServiceManagerSystemd
+
+    def configure_apparmor
+    end
+
+  end
+end
