@@ -6,5 +6,4 @@ source 'http://razorci.osdc.lax.rapid7.com:9080'
 source 'https://supermarket.getchef.com'
 
 #Replaces shims with metadata to run test kitchen
-# shims
 shims
