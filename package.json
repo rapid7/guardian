@@ -7,7 +7,7 @@
   "dependencies": {
     "async": "1.4.x",
     "cookie": "0.1.x",
-    "ejs": "2.3.x",
+    "ejs": "2.7.x",
     "express": "4.x",
     "hiredis": "0.x",
     "jake": "8.x",
