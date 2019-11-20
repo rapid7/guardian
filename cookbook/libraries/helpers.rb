@@ -30,6 +30,7 @@ module MysqlCookbook
   class MysqlServiceManagerSystemd
 
     def configure_apparmor
+      super
     end
 
   end
