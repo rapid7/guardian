@@ -114,7 +114,7 @@ GEM
     ignorefile (1.1.0)
     ipaddress (0.8.3)
     jmespath (1.4.0)
-    json (2.2.0)
+    json (2.3.1)
     kitchen-vagrant (1.5.1)
       test-kitchen (>= 1.4, < 3)
     libyajl2 (1.2.0)
