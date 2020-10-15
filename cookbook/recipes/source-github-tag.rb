@@ -25,6 +25,7 @@ package 'git'
 
 git 'guardian-source' do
   repository Guardian::Helpers.github_uri(node['guardian']['repo'])
+  revision 'PD-26578-upgrade-libuuid-dependency'
   destination node['guardian']['path']
   depth 1
 
