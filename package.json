@@ -11,7 +11,7 @@
     "express": "4.x",
     "hiredis": "0.x",
     "jake": "8.x",
-    "libuuid": "0.1.4",
+    "uuid": "8.3.1",
     "mysql": "2.8.x",
     "nconf": "0.7.x",
     "passport": "0.2.x",

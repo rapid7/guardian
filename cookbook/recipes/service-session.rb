@@ -20,7 +20,11 @@
 include_recipe "#{ cookbook_name }::base"
 include_recipe "#{ cookbook_name }::install"
 
-guardian_service 'session' do
-  subscribes :reload, 'git[guardian-source]', :delayed
-  subscribes :reload, 'ruby_block[guardian-source]', :delayed
+if !node.baking? 
+  guardian_service 'session' do
+    subscribes :reload, 'git[guardian-source]', :delayed
+    subscribes :reload, 'ruby_block[guardian-source]', :delayed
+  end
 end
+
+
