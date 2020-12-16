@@ -6,7 +6,7 @@ description 'Installs/Configures guardian'
 
 license 'MIT'
 long_description IO.read(File.expand_path('../../README.md', __FILE__)) rescue ''
-version '0.3.30'
+version '0.3.31'
 
 depends 'apt'
 depends 'database', '~> 4.0'
