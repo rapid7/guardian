@@ -20,7 +20,7 @@
 
 apt_repository 'node_0.12' do
   uri 'https://deb.nodesource.com/node_10.x/'
-  distribution 'xenial' #node['lsb']['codename']
+  distribution 'bionic' #node['lsb']['codename']
   components %w(main)
   key 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
 end
