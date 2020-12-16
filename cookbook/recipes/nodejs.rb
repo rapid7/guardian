@@ -27,6 +27,6 @@ end
 
 package 'build-essential'
 package 'nodejs' do
-  version '10.22.1-1nodesource1'
+  version '10.23.0-1nodesource1'
 end
 package 'uuid-dev'
