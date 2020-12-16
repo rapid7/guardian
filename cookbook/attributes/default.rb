@@ -39,7 +39,7 @@ default['guardian']['conf'] = '/etc/guardian'
 default['guardian']['path'] = '/srv/guardian'
 default['guardian']['log'] = '/var/log/guardian/guardian.log'
 default['guardian']['source'] = 'github-tag'
-default['guardian']['source']['ref'] = 'master'
+default['guardian']['git']['revision'] = 'master'
 default['guardian']['enable'] = true
 
 default['guardian']['repo'] = 'rapid7/guardian'
