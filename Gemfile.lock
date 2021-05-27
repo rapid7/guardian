@@ -167,7 +167,7 @@ GEM
     plist (3.1.0)
     proxifier (1.0.3)
     public_suffix (3.0.3)
-    rack (1.6.11)
+    rack (1.6.13)
     retryable (2.0.4)
     ridley (5.1.1)
       addressable
