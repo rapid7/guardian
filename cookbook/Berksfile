@@ -2,7 +2,7 @@
 require 'builderator/util/berkshim'
 extend Builderator::Util::Berkshim
 
-source 'http://razorci.osdc.lax.rapid7.com:9080'
+source 'http://chef.rapid7.com:9080'  # Core chef org
 source 'https://supermarket.getchef.com'
 
 #Replaces shims with metadata to run test kitchen
