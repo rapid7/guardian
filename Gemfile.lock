@@ -113,7 +113,7 @@ GEM
     httpclient (2.8.3)
     ignorefile (1.1.0)
     ipaddress (0.8.3)
-    jmespath (1.4.0)
+    jmespath (1.6.1)
     json (2.2.0)
     kitchen-vagrant (1.5.1)
       test-kitchen (>= 1.4, < 3)
