@@ -9,7 +9,7 @@ info:
   x-cortex-tag: guardian
   x-cortex-type: service
   x-cortex-domain-parents:
-  - tag: platform-delivery
+  - tag: pd-services
 openapi: 3.0.1
 servers:
 - url: "/"
