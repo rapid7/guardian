@@ -17,7 +17,7 @@
     "passport": "0.2.x",
     "passport-oauth2": "1.1.x",
     "passport-saml": "0.10.x",
-    "qs": "2.4.x",
+    "qs": "6.9.x",
     "redis": "0.12.x",
     "sequelize": "3.5.x",
     "serve-static": "1.9.x",
